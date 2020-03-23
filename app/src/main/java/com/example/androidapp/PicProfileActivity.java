@@ -37,4 +37,9 @@ public class PicProfileActivity extends AppCompatActivity {
         ImageView imageView = (ImageView) findViewById((R.id.profilepic));
         imageView.setImageURI(uri);
     }
+
+    public void nextClick(View view) {
+        Intent intent = new Intent(this,ProfileActivity.class);
+        startActivity(intent);
+    }
 }

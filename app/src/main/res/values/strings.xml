@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AndroidApp</string>
+    <string name="change"><u>Change</u></string>
 </resources>
