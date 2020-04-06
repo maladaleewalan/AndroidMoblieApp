@@ -4,35 +4,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorYellow"
+    android:background="@drawable/background"
     tools:context=".LoginActivity">
 
     <Button
         android:id="@+id/button4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="240dp"
-        android:background="@color/colorLightOrange"
-        android:text="login"
-        android:textColor="@color/colorPink"
-        android:textSize="20sp"
+        android:background="@color/colorLightYellow"
+        android:text="Sign in"
+        android:textColor="@color/colorDarkGreen"
+        android:textSize="18sp"
+        app:fontFamily="@font/press_start_2p"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.541"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText2"
-        app:layout_constraintVertical_bias="0.222" />
+
+        app:layout_constraintVertical_bias="0.188" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        android:text="Log in"
-        android:textColor="@color/colorLightRed"
-        android:textSize="36sp"
-        app:fontFamily="@font/chonburi"
-        app:layout_constraintHorizontal_bias="0.515"
+        android:layout_marginTop="52dp"
+        android:text="@string/common_signin_button_text"
+        android:textColor="@color/colorDarkGreen"
+        android:textSize="25dp"
+        app:fontFamily="@font/press_start_2p"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -75,6 +75,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editText"
         app:layout_constraintVertical_bias="0.086" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
