@@ -47,6 +47,11 @@ public class SignupActivity extends AppCompatActivity {
 
         firebaseAuth = FirebaseAuth.getInstance();
 
+        if(firebaseAuth.getCurrentUser() != null) {
+            finish();
+            startActivity(new Intent(getApplicationContext(),AppActivity.class));
+        }
+
         progressDialog = new ProgressDialog(this);
         buttonRegister = (Button) findViewById(R.id.buttonRegister);
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -55,18 +60,12 @@ public class SignupActivity extends AppCompatActivity {
         editTextLastname = (EditText) findViewById(R.id.editTextLastname);
         editTextTel = (EditText) findViewById(R.id.editTextTel);
         radioGroup = findViewById(R.id.radioGroup);
-        //radioButtonDriver = findViewById(R.id.radioButtonDriver);
-        //radioButtonStudent = findViewById(R.id.radioButtonStudent);
-        //radioButtonStudent = findViewById(R.id.radioButtonOther);
-
-
 
 
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //registerUser();
                 email = editTextEmail.getText().toString();
                 password = editTextPassword.getText().toString();
                 firstname = editTextFirstname.getText().toString();
@@ -101,7 +100,7 @@ public class SignupActivity extends AppCompatActivity {
                 }
 
 
-                progressDialog.setMessage("Sign up...");
+                progressDialog.setMessage("Sign up...Please Wait");
                 progressDialog.show();
 
                 int radioId = radioGroup.getCheckedRadioButtonId();
@@ -132,7 +131,7 @@ public class SignupActivity extends AppCompatActivity {
 
                         }
                         else {
-                            Toast.makeText(SignupActivity.this, "Clound not Sign up. Please try again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "Could not Sign up. Please try again", Toast.LENGTH_SHORT).show();
 
                         }
                         progressDialog.dismiss();
@@ -142,68 +141,6 @@ public class SignupActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void registerUser() {
-//        email = editTextEmail.getText().toString();
-//        password = editTextPassword.getText().toString();
-//        firstname = editTextFirstname.getText().toString();
-//        lastname = editTextLastname.getText().toString();
-//        tel = editTextTel.getText().toString();
-//
-//
-//        if(TextUtils.isEmpty(email)) {
-//            Toast.makeText(this, "Please enter email!", Toast.LENGTH_SHORT).show();
-//            return;
-//
-//        }
-//        if(TextUtils.isEmpty(password)) {
-//            Toast.makeText(this, "Please enter password!", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        if(TextUtils.isEmpty(firstname)) {
-//            Toast.makeText(this, "Please enter firstname!", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        if(TextUtils.isEmpty(lastname)) {
-//            Toast.makeText(this, "Please enter lastname!", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        if(TextUtils.isEmpty(tel)) {
-//            Toast.makeText(this, "Please enter tel!", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        if(password.length()<8) {
-//            editTextPassword.setError("Password Must be >= 8 Character");
-//            return;
-//        }
-//
-//
-//        progressDialog.setMessage("Sign up...");
-//        progressDialog.show();
-//
-//        firebaseAuth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(this, new OnCompleteListener<com.google.firebase.auth.AuthResult>() {
-//            @Override
-//            public void onComplete(@NonNull Task<com.google.firebase.auth.AuthResult> task) {
-//                if(task.isSuccessful()) {
-//
-//                    Toast.makeText(SignupActivity.this, "Sign up success", Toast.LENGTH_SHORT).show();
-//
-//                    String id = myRefUser.push().getKey();
-//
-//                    User newUser = new User(id,email,firstname,lastname,tel,role);
-//
-//                    myRefUser.child(id).setValue(newUser);
-//                }
-//                else {
-//                    Toast.makeText(SignupActivity.this, "Clould not Sign up. Please try again", Toast.LENGTH_SHORT).show();
-//
-//                }
-//                progressDialog.dismiss();
-//
-//            }
-//        });
-
     }
 
     public void next() {
