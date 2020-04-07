@@ -1,20 +1,22 @@
 package com.example.androidapp;
 
 public class User {
-    private String id,email,firstname,lastname,tel,role;
+    private String email,firstname,lastname,tel,role;
+    private String profilePic;
 
-    public User(String id,String email, String firstname, String lastname, String tel, String role) {
-        this.id = id;
+    public User(String email, String firstname, String lastname, String tel, String role) {
         this.email = email;
         this.firstname = firstname;
         this.lastname = lastname;
         this.tel = tel;
         this.role = role;
+        profilePic = "";
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
     }
+
 
     public void setEmail(String email) {
         this.email = email;
@@ -36,10 +38,6 @@ public class User {
         this.role = role;
     }
 
-    public String getId() {
-        return id;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -58,5 +56,9 @@ public class User {
 
     public String getRole() {
         return role;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
     }
 }

@@ -111,14 +111,6 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<com.google.firebase.auth.AuthResult> task) {
                         if(task.isSuccessful()) {
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            DatabaseReference myRef = database.getReference("users");
-                            String id = myRef.push().getKey();
-
-                            User newUser = new User(id,email,firstname,lastname,tel,role);
-
-                            myRef.child(id).setValue(newUser);
-
                             Toast.makeText(SignupActivity.this, "Sign up success", Toast.LENGTH_SHORT).show();
 
                             editTextPassword.setText("");
@@ -126,6 +118,15 @@ public class SignupActivity extends AppCompatActivity {
                             editTextEmail.setText("");
                             editTextFirstname.setText("");
                             editTextLastname.setText("");
+
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference myRef = database.getReference("users");
+
+
+                            User newUser = new User(email,firstname,lastname,tel,role);
+
+                            myRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(newUser);
 
                             next();
 
