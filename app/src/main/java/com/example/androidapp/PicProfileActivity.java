@@ -62,6 +62,12 @@ public class PicProfileActivity extends AppCompatActivity {
 
 
                 StorageReference Imagename = Folder.child("image"+uri.getLastPathSegment());
+                if(uri.equals(Uri.parse(""))) {
+                    Toast.makeText(PicProfileActivity.this, "Please upload profile picture!", Toast.LENGTH_SHORT).show();
+                    progressDialog.dismiss();
+
+                    return ;
+                }
                 Imagename.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

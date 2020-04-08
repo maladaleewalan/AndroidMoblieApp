@@ -149,6 +149,11 @@ public class SignupActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void ClickSignin(View v) {
+        Intent intent = new Intent(this,LoginActivity.class);
+        startActivity(intent);
+    }
+
 
 
 }
