@@ -64,39 +64,38 @@ public class SignupActivity extends AppCompatActivity {
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                if(TextUtils.isEmpty(editTextEmail.getText().toString())) {
+                    Toast.makeText(SignupActivity.this, "Please enter email!", Toast.LENGTH_SHORT).show();
+                    return;
+
+                }
+                if(TextUtils.isEmpty(editTextPassword.getText().toString())) {
+                    Toast.makeText(SignupActivity.this, "Please enter password!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(editTextFirstname.getText().toString())) {
+                    Toast.makeText(SignupActivity.this, "Please enter firstname!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(editTextLastname.getText().toString())) {
+                    Toast.makeText(SignupActivity.this, "Please enter lastname!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(editTextTel.getText().toString())) {
+                    Toast.makeText(SignupActivity.this, "Please enter tel!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(editTextPassword.getText().toString().length()<8) {
+                    editTextPassword.setError("Password Must be >= 8 Character");
+                    return;
+                }
+
                 email = editTextEmail.getText().toString();
                 password = editTextPassword.getText().toString();
                 firstname = editTextFirstname.getText().toString();
                 lastname = editTextLastname.getText().toString();
                 tel = editTextTel.getText().toString();
-
-
-                if(TextUtils.isEmpty(email)) {
-                    Toast.makeText(SignupActivity.this, "Please enter email!", Toast.LENGTH_SHORT).show();
-                    return;
-
-                }
-                if(TextUtils.isEmpty(password)) {
-                    Toast.makeText(SignupActivity.this, "Please enter password!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(firstname)) {
-                    Toast.makeText(SignupActivity.this, "Please enter firstname!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(lastname)) {
-                    Toast.makeText(SignupActivity.this, "Please enter lastname!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(TextUtils.isEmpty(tel)) {
-                    Toast.makeText(SignupActivity.this, "Please enter tel!", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if(password.length()<8) {
-                    editTextPassword.setError("Password Must be >= 8 Character");
-                    return;
-                }
-
 
                 progressDialog.setMessage("Sign up...Please Wait");
                 progressDialog.show();
@@ -120,7 +119,6 @@ public class SignupActivity extends AppCompatActivity {
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
                             DatabaseReference myRef = database.getReference("users");
-
 
                             User newUser = new User(email,firstname,lastname,tel,role);
 

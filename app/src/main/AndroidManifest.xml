@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".FormCarActivity"></activity>
+        <activity android:name=".WaitActivity"></activity>
+        <activity android:name=".FormCarActivity" />
         <activity android:name=".AppActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".PicProfileActivity" />

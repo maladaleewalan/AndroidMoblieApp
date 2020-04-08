@@ -4,20 +4,32 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class AppActivity extends AppCompatActivity {
 
     private FirebaseAuth firebaseAuth;
 
-    private Button buttonLogout;
+    private Button buttonSubmit;
+    EditText editTextStart,editTextDest;
+
+    String start,dest,place = "";
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,9 +63,15 @@ public class AppActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
 
-//        getSupportActionBar().setDisplayShowTitleEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-//        getSupportActionBar().setIcon(R.drawable.ic_exit_to_app);
+        buttonSubmit = findViewById(R.id.buttonSubmit);
+        editTextStart = (EditText)findViewById(R.id.editTextStart);
+        editTextDest = (EditText)findViewById(R.id.editTextDest);
+
+        final Spinner mySpinner = (Spinner) findViewById(R.id.spinner);
+        final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(AppActivity.this,
+                android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.place));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mySpinner.setAdapter(myAdapter);
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -63,6 +81,40 @@ public class AppActivity extends AppCompatActivity {
         }
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        buttonSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                place = mySpinner.getSelectedItem().toString();
+
+                if(place.equals("เลือกตำแหน่งใกล้เคียง")) {
+                    Toast.makeText(AppActivity.this, "กรุณาเลือกตำแหน่งใกล้เคียง!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(editTextStart.getText().toString())) {
+                    Toast.makeText(AppActivity.this, "กรุณาใส่สถานที่ที่ให้ไปรับ!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(TextUtils.isEmpty(editTextDest.getText().toString())) {
+                    Toast.makeText(AppActivity.this, "กรุณาใส่เปลายทาง!", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                start = editTextStart.getText().toString();
+                dest = editTextDest.getText().toString();
+
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myRef = database.getReference("routes");
+
+                Route newRoute = new Route("",firebaseAuth.getCurrentUser().getUid(),place,start,dest);
+
+                myRef.push().setValue(newRoute);
+
+                startActivity(new Intent(AppActivity.this,WaitActivity.class));
+
+            }
+        });
 
     }
 }
