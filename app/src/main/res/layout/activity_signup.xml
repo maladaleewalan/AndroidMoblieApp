@@ -146,6 +146,7 @@
         android:text="Next"
         android:textColor="@color/colorDarkGreen"
         android:textSize="18sp"
+        app:backgroundTint="@color/colorLightYellow"
         app:fontFamily="@font/press_start_2p"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

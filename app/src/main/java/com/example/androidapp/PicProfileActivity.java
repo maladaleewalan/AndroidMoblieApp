@@ -25,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -33,13 +34,12 @@ public class PicProfileActivity extends AppCompatActivity {
 
     private StorageReference Folder;
     public static final int ImageBack = 1;
-    Uri uri = Uri.parse("");
+    private Uri uri;
     private Button buttonPicNext;
     private ProgressDialog progressDialog;
 
-    String role = "";
-
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    String nextpage = "";
 
 
     @Override
@@ -50,7 +50,12 @@ public class PicProfileActivity extends AppCompatActivity {
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
         buttonPicNext = findViewById(R.id.buttonPicNext);
         progressDialog = new ProgressDialog(this);
+        uri = Uri.parse("");
 
+        if(firebaseAuth.getCurrentUser() == null) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
 
         buttonPicNext.setOnClickListener(new View.OnClickListener() {
 
@@ -79,19 +84,17 @@ public class PicProfileActivity extends AppCompatActivity {
 
                         myRef.addChildEventListener(new ChildEventListener() {
                             @Override
-                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
                                 String key = dataSnapshot.getKey();
                                 if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
-                                    role = dataSnapshot.child("role").getValue(String.class);
+                                    String role = dataSnapshot.child("role").getValue(String.class);
 
-                                    if(role.equals("Driver")) {
-                                        Intent intent = new Intent(PicProfileActivity.this,FormCarActivity.class);
-                                        startActivity(intent);
-                                    }
-                                    else {
-                                        Intent intent = new Intent(PicProfileActivity.this,AppActivity.class);
-                                        startActivity(intent);
-                                    }
+                                        if(role.equals("Driver")) {
+                                            nextpage = "Driver";
+                                        }
+                                        else {
+                                            nextpage = "app";
+                                        }
                                 }
                             }
 
@@ -117,15 +120,23 @@ public class PicProfileActivity extends AppCompatActivity {
                         });
 
                         Toast.makeText(PicProfileActivity.this, "Upload Success", Toast.LENGTH_SHORT).show();
+                       goNextPage();
 
-
-
-
-
-                    }
+                   }
                 });
             }
         });
+    }
+
+    public void goNextPage() {
+        if(nextpage == "Driver") {
+            Intent intent = new Intent(PicProfileActivity.this,FormCarActivity.class);
+            startActivity(intent);
+        }
+        else if(nextpage == "app") {
+            Intent intent = new Intent(PicProfileActivity.this,AppActivity.class);
+            startActivity(intent);
+        }
     }
 
 

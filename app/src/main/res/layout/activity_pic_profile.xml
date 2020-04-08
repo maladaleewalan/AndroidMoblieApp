@@ -14,14 +14,15 @@
         android:background="@color/colorLightYellow"
         android:text="Next"
         android:textColor="@color/colorDarkGreen"
-        android:textSize="13sp"
+        android:textSize="10sp"
+        app:backgroundTint="@color/colorLightYellow"
         app:fontFamily="@font/press_start_2p"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.391"
+        app:layout_constraintHorizontal_bias="0.421"
         app:layout_constraintStart_toEndOf="@+id/button5"
         app:layout_constraintTop_toBottomOf="@+id/profilepic"
-        app:layout_constraintVertical_bias="0.072" />
+        app:layout_constraintVertical_bias="0.127" />
 
     <Button
         android:id="@+id/button5"
@@ -31,14 +32,15 @@
         android:onClick="uploadClick"
         android:text="Upload photo"
         android:textColor="@color/colorDarkGreen"
-        android:textSize="13sp"
+        android:textSize="10sp"
+        app:backgroundTint="@color/colorLightOrange"
         app:fontFamily="@font/press_start_2p"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.222"
+        app:layout_constraintHorizontal_bias="0.223"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/profilepic"
-        app:layout_constraintVertical_bias="0.072" />
+        app:layout_constraintVertical_bias="0.127" />
 
     <ImageView
         android:id="@+id/profilepic"
@@ -47,10 +49,10 @@
         android:src="@drawable/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text"
-        app:layout_constraintVertical_bias="0.024"
+        app:layout_constraintVertical_bias="0.076"
         tools:ignore="MissingConstraints" />
 
     <TextView

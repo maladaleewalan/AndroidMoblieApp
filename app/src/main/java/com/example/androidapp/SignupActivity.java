@@ -44,7 +44,6 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
-
         firebaseAuth = FirebaseAuth.getInstance();
 
         if(firebaseAuth.getCurrentUser() != null) {
@@ -60,7 +59,6 @@ public class SignupActivity extends AppCompatActivity {
         editTextLastname = (EditText) findViewById(R.id.editTextLastname);
         editTextTel = (EditText) findViewById(R.id.editTextTel);
         radioGroup = findViewById(R.id.radioGroup);
-
 
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
@@ -145,12 +143,12 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void next() {
-        Intent intent = new Intent(this,PicProfileActivity.class);
+        Intent intent = new Intent(SignupActivity.this,PicProfileActivity.class);
         startActivity(intent);
     }
 
     public void ClickSignin(View v) {
-        Intent intent = new Intent(this,LoginActivity.class);
+        Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
         startActivity(intent);
     }
 

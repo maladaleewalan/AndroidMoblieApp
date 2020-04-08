@@ -51,6 +51,12 @@ public class FormCarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_car);
 
+        if(firebaseAuth.getCurrentUser() == null) {
+            finish();
+            startActivity(new Intent(this, LoginActivity.class));
+        }
+
+
         buttonPicNext = findViewById(R.id.buttonPicNext);
         editTextRegis = findViewById(R.id.editTextRegis);
 

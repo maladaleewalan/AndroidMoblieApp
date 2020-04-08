@@ -15,13 +15,14 @@
         android:text="Sign in"
         android:textColor="@color/colorDarkGreen"
         android:textSize="18sp"
+        app:backgroundTint="@color/colorLightYellow"
         app:fontFamily="@font/press_start_2p"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.653"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
 
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
         app:layout_constraintVertical_bias="0.262" />
 
     <TextView
