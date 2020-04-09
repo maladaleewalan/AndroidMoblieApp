@@ -1,7 +1,7 @@
 package com.example.androidapp;
 
 public class Car {
-    String regis,place,carPic,user_id;
+    String regis,place,carPic,user_id;    //point
 
     public Car(String regis, String place, String carPic, String user_id) {
         this.regis = regis;

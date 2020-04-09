@@ -1,12 +1,15 @@
 package com.example.androidapp;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.LoginFilter;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,6 +19,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -24,18 +33,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
 
+    String nextpage = "";
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("users");
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         firebaseAuth = FirebaseAuth.getInstance();
-
-        if(firebaseAuth.getCurrentUser() != null) {
-            finish();
-            startActivity(new Intent(getApplicationContext(),AppActivity.class));
-        }
-
 
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
         editTextPassword = (EditText) findViewById(R.id.editTextPassword);
@@ -75,8 +83,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 progressDialog.dismiss();
 
                 if(task.isSuccessful()) {
-                    finish();
-                    startActivity(new Intent(getApplicationContext(),AppActivity.class));
+                    checkRole();
+                    return ;
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Sign in fail. Please try again", Toast.LENGTH_SHORT).show();
@@ -94,5 +102,48 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void ClickSignup(View v) {
         Intent intent = new Intent(this,SignupActivity.class);
         startActivity(intent);
+    }
+
+    public void checkRole() {
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String key = dataSnapshot.getKey();
+                if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
+                    String role = dataSnapshot.child("role").getValue(String.class);
+
+                    if(role.equals("Driver")) {
+                        Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(new Intent(getApplicationContext(),AllCallActivity.class));
+                    }
+                    else {
+                        Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+                        finish();
+                        startActivity(new Intent(getApplicationContext(),AppActivity.class));
+                    }
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 }

@@ -4,7 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -43,6 +45,8 @@ public class AppActivity extends AppCompatActivity {
 
         switch(item.getItemId()){
             case R.id.nav_home:
+                finish();
+                startActivity(new Intent(AppActivity.this,AppActivity.class));
                 return true;
 
             case R.id.nav_profile:
@@ -109,9 +113,13 @@ public class AppActivity extends AppCompatActivity {
 
                 Route newRoute = new Route("",firebaseAuth.getCurrentUser().getUid(),place,start,dest);
 
-                myRef.push().setValue(newRoute);
+                String id = myRef.push().getKey();
 
-                startActivity(new Intent(AppActivity.this,WaitActivity.class));
+                myRef.child(id).setValue(newRoute);
+
+                Intent intent = new Intent(AppActivity.this,WaitActivity.class);
+                intent.putExtra("idMyRoute",id);
+                startActivity(intent);
 
             }
         });

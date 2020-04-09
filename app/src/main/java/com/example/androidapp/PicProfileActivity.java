@@ -129,11 +129,11 @@ public class PicProfileActivity extends AppCompatActivity {
     }
 
     public void goNextPage() {
-        if(nextpage == "Driver") {
+        if(nextpage.equals("Driver")) {
             Intent intent = new Intent(PicProfileActivity.this,FormCarActivity.class);
             startActivity(intent);
         }
-        else if(nextpage == "app") {
+        else if(nextpage.equals("app")) {
             Intent intent = new Intent(PicProfileActivity.this,AppActivity.class);
             startActivity(intent);
         }
@@ -155,6 +155,7 @@ public class PicProfileActivity extends AppCompatActivity {
         if(requestCode == ImageBack) {
             if(resultCode == RESULT_OK) {
                 uri = data.getData();
+                Log.i("uriprofile", "onActivityResult: "+uri);
                 ImageView imageView = (ImageView) findViewById((R.id.profilepic));
                 imageView.setImageURI(uri);
 

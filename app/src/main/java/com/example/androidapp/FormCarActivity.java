@@ -125,7 +125,7 @@ public class FormCarActivity extends AppCompatActivity {
 
 
     public void next() {
-        Intent intent = new Intent(this,AppActivity.class);
+        Intent intent = new Intent(this,AllCallActivity.class);
         startActivity(intent);
     }
 
