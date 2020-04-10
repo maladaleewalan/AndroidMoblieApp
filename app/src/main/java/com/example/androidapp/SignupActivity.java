@@ -44,6 +44,9 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
 
+        Log.i("stay", "onCreate: SignupActivity");
+
+
         firebaseAuth = FirebaseAuth.getInstance();
 
         progressDialog = new ProgressDialog(this);
@@ -136,12 +139,22 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     public void next() {
+        editTextEmail.setText("");
+        editTextPassword.setText("");
+        editTextFirstname.setText("");
+        editTextLastname.setText("");
+        editTextTel.setText("");
+
         Intent intent = new Intent(SignupActivity.this,PicProfileActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        finish();
         startActivity(intent);
     }
 
     public void ClickSignin(View v) {
         Intent intent = new Intent(SignupActivity.this,LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        finish();
         startActivity(intent);
     }
 

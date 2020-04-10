@@ -1,7 +1,7 @@
 package com.example.androidapp;
 
 public class Route {
-    private String driver,passsenger,place,start,dest;    //สถานะ,บันทึกแล้ว
+    private String driver,passsenger,place,start,dest,namepassenger,telpassenger,picpassenger;    //สถานะ,บันทึกแล้ว
     boolean isWait;
 
     public Route(String driver, String passsenger, String place, String start, String dest) {
@@ -37,6 +37,18 @@ public class Route {
         isWait = wait;
     }
 
+    public void setNamepassenger(String namepassenger) {
+        this.namepassenger = namepassenger;
+    }
+
+    public void setTelpassenger(String telpassenger) {
+        this.telpassenger = telpassenger;
+    }
+
+    public void setPicpassenger(String picpassenger) {
+        this.picpassenger = picpassenger;
+    }
+
     public String getDriver() {
         return driver;
     }
@@ -59,5 +71,17 @@ public class Route {
 
     public boolean isWait() {
         return isWait;
+    }
+
+    public String getNamepassenger() {
+        return namepassenger;
+    }
+
+    public String getTelpassenger() {
+        return telpassenger;
+    }
+
+    public String getPicpassenger() {
+        return picpassenger;
     }
 }

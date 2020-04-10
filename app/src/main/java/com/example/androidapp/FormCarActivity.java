@@ -34,6 +34,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.text.Normalizer;
+
 public class FormCarActivity extends AppCompatActivity {
 
     public static final int ImageBack = 1;
@@ -51,9 +53,14 @@ public class FormCarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_car);
 
+        Log.i("stay", "onCreate: FormActivity");
+
+
         if(firebaseAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(FormCarActivity.this,LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(intent);
         }
 
 
@@ -108,13 +115,16 @@ public class FormCarActivity extends AppCompatActivity {
                             return;
                         }
 
-                        Car newCar = new Car(regis,place,String.valueOf(uri),firebaseAuth.getCurrentUser().getUid());
+                        Car newCar = new Car(regis,place,taskSnapshot.getUploadSessionUri().toString(),firebaseAuth.getCurrentUser().getUid());
+
 
                         myRef.push().setValue(newCar);
 
                         Toast.makeText(FormCarActivity.this, "Upload Success", Toast.LENGTH_SHORT).show();
 
+                        editTextRegis.setText("");
                         next();
+
 
                     }
                 });
@@ -126,7 +136,10 @@ public class FormCarActivity extends AppCompatActivity {
 
     public void next() {
         Intent intent = new Intent(this,AllCallActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        finish();
         startActivity(intent);
+
     }
 
     public void uploadClick(View v) {

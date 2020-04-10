@@ -2,13 +2,14 @@ package com.example.androidapp;
 
 public class ListItem {
 
-    private String firstname,start,dest,tel;
+    private String firstname,start,dest,tel, ImageUrl;
 
     public ListItem(String firstname, String start, String dest, String tel) {
         this.firstname = firstname;
         this.start = start;
         this.dest = dest;
         this.tel = tel;
+        this.ImageUrl = "";
     }
 
     public String getFirstname() {
@@ -27,6 +28,10 @@ public class ListItem {
         return tel;
     }
 
+    public String getImageUrl() {
+        return ImageUrl;
+    }
+
     public void setFirstname(String firstname) {
         this.firstname = firstname;
     }
@@ -41,5 +46,9 @@ public class ListItem {
 
     public void setTel(String tel) {
         this.tel = tel;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.ImageUrl = imageUrl;
     }
 }

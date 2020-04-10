@@ -43,6 +43,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        Log.i("stay", "onCreate: loginActivity");
+
+
         firebaseAuth = FirebaseAuth.getInstance();
 
         editTextEmail = (EditText) findViewById(R.id.editTextEmail);
@@ -101,6 +104,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public void ClickSignup(View v) {
         Intent intent = new Intent(this,SignupActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        finish();
         startActivity(intent);
     }
 
@@ -114,13 +119,25 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     if(role.equals("Driver")) {
                         Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+
+                        editTextEmail.setText("");
+                        editTextPassword.setText("");
+
+                        Intent intent = new Intent(LoginActivity.this,AllCallActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         finish();
-                        startActivity(new Intent(getApplicationContext(),AllCallActivity.class));
+                        startActivity(intent);
                     }
                     else {
                         Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+
+                        editTextEmail.setText("");
+                        editTextPassword.setText("");
+
+                        Intent intent = new Intent(LoginActivity.this,AppActivity.class);
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         finish();
-                        startActivity(new Intent(getApplicationContext(),AppActivity.class));
+                        startActivity(intent);
                     }
                 }
             }

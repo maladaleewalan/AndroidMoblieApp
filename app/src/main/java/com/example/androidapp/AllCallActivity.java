@@ -22,6 +22,8 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +33,13 @@ public class AllCallActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
 
-    private List<Route> listItems;
+    private List<Route> listItems,setItem;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRefCar = database.getReference("cars");
     DatabaseReference myRefRoute = database.getReference("routes");
+
+//    private StorageReferencence mStorageRef;
 
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
@@ -52,11 +56,13 @@ public class AllCallActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-
+        Intent intent;
         switch(item.getItemId()){
             case R.id.nav_home:
+                intent = new Intent(AllCallActivity.this,AllCallActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
-                startActivity(new Intent(AllCallActivity.this,AllCallActivity.class));
+                startActivity(intent);
                 return true;
 
             case R.id.nav_profile:
@@ -64,8 +70,10 @@ public class AllCallActivity extends AppCompatActivity {
 
             case R.id.nav_logout:   //this item has your app icon
                 firebaseAuth.signOut();
+                intent = new Intent(AllCallActivity.this,LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
-                startActivity(new Intent(AllCallActivity.this,LoginActivity.class));
+                startActivity(intent);
                 return true;
 
             default: return super.onOptionsItemSelected(item);
@@ -77,20 +85,23 @@ public class AllCallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_call);
 
-        listItems = new ArrayList<>();
+        Log.i("stay", "onCreate: AllCallActivity");
+        setItem = new ArrayList<>();
 
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new MyAdapter(listItems,AllCallActivity.this);
-        recyclerView.setAdapter(adapter);
 
         textShowPlace = (TextView) findViewById(R.id.textShowPlace);
 
+       // mStorageRef = FirebaseStorage.getInstance().getReference("ImageFolder");
+
         if(firebaseAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(AllCallActivity.this,LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(intent);
         }
 
 
@@ -103,8 +114,24 @@ public class AllCallActivity extends AppCompatActivity {
                 String passenger = dataSnapshot.child("passenger").getValue(String.class);
                 String place = dataSnapshot.child("passenger").getValue(String.class);
 
-                Route routeAdd = new Route("",passenger,place,start,dest);
-                listItems.add(routeAdd);
+                Route routeShow = new Route("",passenger,place,start,dest);
+                routeShow.setPicpassenger(dataSnapshot.child("picpassenger").getValue(String.class));
+                routeShow.setNamepassenger(dataSnapshot.child("namepassenger").getValue(String.class));
+                routeShow.setTelpassenger(dataSnapshot.child("telpassenger").getValue(String.class));
+
+                setItem.add(routeShow);
+
+                listItems = new ArrayList<>();
+
+                for (Route r : setItem) {
+                    listItems.add(r);
+                }
+
+                addItems();
+                adapter = new MyAdapter(listItems,AllCallActivity.this);
+                recyclerView.setAdapter(adapter);
+
+
 
             }
 
@@ -127,7 +154,10 @@ public class AllCallActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
+
         });
+
+
 
 
 
@@ -161,11 +191,15 @@ public class AllCallActivity extends AppCompatActivity {
             }
         });
 
-        for(int i = 0;i<=10;i++) {
-            Route item = new Route("","idpassenger","science","SC45","toofase");
 
-            listItems.add(item);
-        }
     }
+
+
+
+
+    public void addItems() {
+
+    }
+
 
 }

@@ -1,5 +1,7 @@
 package com.example.androidapp;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -19,6 +21,9 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -42,11 +47,13 @@ public class AppActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-
+        Intent intent;
         switch(item.getItemId()){
             case R.id.nav_home:
+                intent = new Intent(AppActivity.this,AppActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
-                startActivity(new Intent(AppActivity.this,AppActivity.class));
+                startActivity(intent);
                 return true;
 
             case R.id.nav_profile:
@@ -54,8 +61,9 @@ public class AppActivity extends AppCompatActivity {
 
             case R.id.nav_logout:   //this item has your app icon
                 firebaseAuth.signOut();
+                intent = new Intent(AppActivity.this,LoginActivity.class);
                 finish();
-                startActivity(new Intent(AppActivity.this,LoginActivity.class));
+                startActivity(intent);
                 return true;
 
             default: return super.onOptionsItemSelected(item);
@@ -66,6 +74,9 @@ public class AppActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
+
+        Log.i("stay", "onCreate: AppActivity");
+
 
         buttonSubmit = findViewById(R.id.buttonSubmit);
         editTextStart = (EditText)findViewById(R.id.editTextStart);
@@ -80,8 +91,10 @@ public class AppActivity extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
 
         if(firebaseAuth.getCurrentUser() == null) {
+            Intent intent = new Intent(AppActivity.this,LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             finish();
-            startActivity(new Intent(this, LoginActivity.class));
+            startActivity(intent);
         }
 
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -109,17 +122,62 @@ public class AppActivity extends AppCompatActivity {
                 dest = editTextDest.getText().toString();
 
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myRef = database.getReference("routes");
+                final DatabaseReference myRef = database.getReference("routes");
 
-                Route newRoute = new Route("",firebaseAuth.getCurrentUser().getUid(),place,start,dest);
+                DatabaseReference myRefUser = database.getReference("users");
 
-                String id = myRef.push().getKey();
+                final Route newRoute = new Route("",firebaseAuth.getCurrentUser().getUid(),place,start,dest);
 
-                myRef.child(id).setValue(newRoute);
+                myRefUser.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        String key = dataSnapshot.getKey();
+                        if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
+                            String namepass = dataSnapshot.child("firstname").getValue(String.class);
+                            String telpass = dataSnapshot.child("tel").getValue(String.class);
+                            String uri = dataSnapshot.child("profilePic").getValue(String.class);
+                            Log.i("url", "onChildAdded: "+uri);
+                            newRoute.setNamepassenger(namepass);
+                            newRoute.setTelpassenger(telpass);
+                            newRoute.setPicpassenger(uri);
 
-                Intent intent = new Intent(AppActivity.this,WaitActivity.class);
-                intent.putExtra("idMyRoute",id);
-                startActivity(intent);
+                            String id = myRef.push().getKey();
+
+                            myRef.child(id).setValue(newRoute);
+
+                            editTextStart.setText("");
+                            editTextDest.setText("");
+                            Intent intent = new Intent(AppActivity.this,WaitActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            intent.putExtra("idMyRoute",id);
+                            finish();
+                            startActivity(intent);
+
+
+                        }
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
 
             }
         });

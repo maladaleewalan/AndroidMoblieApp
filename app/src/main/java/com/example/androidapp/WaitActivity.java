@@ -60,11 +60,13 @@ public class WaitActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-
+        Intent intent;
         switch(item.getItemId()){
             case R.id.nav_home:
+                intent = new Intent(WaitActivity.this,AppActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
-                startActivity(new Intent(WaitActivity.this,AppActivity.class));
+                startActivity(intent);
                 return true;
 
             case R.id.nav_profile:
@@ -72,6 +74,8 @@ public class WaitActivity extends AppCompatActivity {
 
             case R.id.nav_logout:   //this item has your app icon
                 firebaseAuth.signOut();
+                intent = new Intent(WaitActivity.this,LoginActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
                 startActivity(new Intent(WaitActivity.this,LoginActivity.class));
                 return true;
@@ -84,6 +88,9 @@ public class WaitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
+
+        Log.i("stay", "onCreate: WaitActivity");
+
 
         Intent intent = getIntent();
         idMyRoute = intent.getStringExtra("idMyRoute");
