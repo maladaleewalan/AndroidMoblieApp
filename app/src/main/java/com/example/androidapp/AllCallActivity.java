@@ -36,15 +36,13 @@ public class AllCallActivity extends AppCompatActivity {
     private List<Route> listItems,setItem;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference myRefCar = database.getReference("cars");
-    DatabaseReference myRefRoute = database.getReference("routes");
-
 //    private StorageReferencence mStorageRef;
+
 
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
-    TextView textShowPlace;
+    TextView textShowPlace,textDontHave;
 
 
     @Override
@@ -94,6 +92,7 @@ public class AllCallActivity extends AppCompatActivity {
 
 
         textShowPlace = (TextView) findViewById(R.id.textShowPlace);
+        textDontHave = (TextView) findViewById(R.id.textDontHave);
 
        // mStorageRef = FirebaseStorage.getInstance().getReference("ImageFolder");
 
@@ -104,64 +103,9 @@ public class AllCallActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
+        DatabaseReference myRef = database.getReference("cars");
 
-        myRefRoute.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //  Log.i("allroute", "onChildAdded: "+dataSnapshot.getValue());
-                String start = dataSnapshot.child("start").getValue(String.class);
-                String dest = dataSnapshot.child("dest").getValue(String.class);
-                String passenger = dataSnapshot.child("passenger").getValue(String.class);
-                String place = dataSnapshot.child("passenger").getValue(String.class);
-
-                Route routeShow = new Route("",passenger,place,start,dest);
-                routeShow.setPicpassenger(dataSnapshot.child("picpassenger").getValue(String.class));
-                routeShow.setNamepassenger(dataSnapshot.child("namepassenger").getValue(String.class));
-                routeShow.setTelpassenger(dataSnapshot.child("telpassenger").getValue(String.class));
-
-                setItem.add(routeShow);
-
-                listItems = new ArrayList<>();
-
-                for (Route r : setItem) {
-                    listItems.add(r);
-                }
-
-                addItems();
-                adapter = new MyAdapter(listItems,AllCallActivity.this);
-                recyclerView.setAdapter(adapter);
-
-
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-
-        });
-
-
-
-
-
-        myRefCar.addChildEventListener(new ChildEventListener() {
+        myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String Userid = firebaseAuth.getCurrentUser().getUid();
@@ -192,14 +136,67 @@ public class AllCallActivity extends AppCompatActivity {
         });
 
 
+        myRef = database.getReference("routes");
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                //  Log.i("allroute", "onChildAdded: "+dataSnapshot.getValue());
+                String start = dataSnapshot.child("start").getValue(String.class);
+                String dest = dataSnapshot.child("dest").getValue(String.class);
+                String passenger = dataSnapshot.child("passenger").getValue(String.class);
+                String place = dataSnapshot.child("place").getValue(String.class);
+
+                Route routeShow = new Route("",passenger,place,start,dest);
+                routeShow.setPicpassenger(dataSnapshot.child("picpassenger").getValue(String.class));
+                routeShow.setNamepassenger(dataSnapshot.child("namepassenger").getValue(String.class));
+                routeShow.setTelpassenger(dataSnapshot.child("telpassenger").getValue(String.class));
+
+                if(place.equalsIgnoreCase(textShowPlace.getText().toString())) {
+                    setItem.add(routeShow);
+                }
+
+                listItems = new ArrayList<>();
+
+                for (Route r : setItem) {
+                    listItems.add(r);
+                }
+
+                adapter = new MyAdapter(listItems,AllCallActivity.this);
+                recyclerView.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+
+
+        });
+
+        if(setItem.size() == 0) {
+            textDontHave.setText("ยังไม่มีการเรียกรถในตำแหน่งนี้");
+        }
+
+
     }
 
 
-
-
-    public void addItems() {
-
-    }
 
 
 }

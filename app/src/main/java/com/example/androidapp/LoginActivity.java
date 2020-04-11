@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     String role = dataSnapshot.child("role").getValue(String.class);
 
                     if(role.equals("Driver")) {
-                        Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
 
                         editTextEmail.setText("");
                         editTextPassword.setText("");
@@ -129,7 +129,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         startActivity(intent);
                     }
                     else {
-                        Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
 
                         editTextEmail.setText("");
                         editTextPassword.setText("");

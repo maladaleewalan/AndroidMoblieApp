@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
@@ -73,6 +74,12 @@ public class WaitActivity extends AppCompatActivity {
                 return true;
 
             case R.id.nav_logout:   //this item has your app icon
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                final DatabaseReference myRefRoute = database.getReference("routes");
+                myRefRoute.child(idMyRoute).setValue(null);
+                Toast.makeText(WaitActivity.this, "การ call driver ถูกยกเลิก!", Toast.LENGTH_SHORT).show();
+
+
                 firebaseAuth.signOut();
                 intent = new Intent(WaitActivity.this,LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -174,5 +181,6 @@ public class WaitActivity extends AppCompatActivity {
 
     public void back() {
         startActivity(new Intent(WaitActivity.this,AppActivity.class));
+        Toast.makeText(WaitActivity.this, "การ call driver ถูกยกเลิก!", Toast.LENGTH_SHORT).show();
     }
 }

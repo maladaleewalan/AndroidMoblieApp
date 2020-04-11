@@ -53,12 +53,12 @@ public class PicProfileActivity extends AppCompatActivity {
         progressDialog = new ProgressDialog(this);
         uri = Uri.parse("");
 
-        if(firebaseAuth.getCurrentUser() == null) {
-            Intent intent = new Intent(PicProfileActivity.this,LoginActivity.class);
-            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-            finish();
-            startActivity(intent);
-        }
+//        if(firebaseAuth.getCurrentUser() == null) {
+//            Intent intent = new Intent(PicProfileActivity.this,LoginActivity.class);
+//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//            finish();
+//            startActivity(intent);
+//        }
 
         buttonPicNext.setOnClickListener(new View.OnClickListener() {
 

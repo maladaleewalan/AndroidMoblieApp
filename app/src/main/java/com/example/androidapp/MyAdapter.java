@@ -50,7 +50,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Route listItem = listItems.get(position);
 
-        Picasso.with(this.context).load(listItem.getPicpassenger()).into(holder.imageView);
+        if(listItem.getPicpassenger()!=null) {
+            Picasso.with(this.context).load(listItem.getPicpassenger()).into(holder.imageView);
+            Log.i("picpassenger", "onBindViewHolder: "+listItem.getPicpassenger());
+        }
         Log.i("uri", "onBindViewHolder: "+Uri.parse(listItem.getPicpassenger()));
         holder.startCall.setText("จุดรับ: "+listItem.getStart());
         holder.destCall.setText("จุดส่ง: "+listItem.getDest());
