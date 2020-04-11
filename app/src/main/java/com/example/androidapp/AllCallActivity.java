@@ -151,7 +151,7 @@ public class AllCallActivity extends AppCompatActivity {
                 routeShow.setNamepassenger(dataSnapshot.child("namepassenger").getValue(String.class));
                 routeShow.setTelpassenger(dataSnapshot.child("telpassenger").getValue(String.class));
 
-                if(place.equalsIgnoreCase(textShowPlace.getText().toString())) {
+                if(place.equals(textShowPlace.getText().toString())) {
                     setItem.add(routeShow);
                 }
 

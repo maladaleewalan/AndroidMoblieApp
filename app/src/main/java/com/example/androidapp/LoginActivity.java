@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void ClickSignup(View v) {
-        Intent intent = new Intent(this,SignupActivity.class);
+        Intent intent = new Intent(LoginActivity.this,SignupActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         finish();
         startActivity(intent);
