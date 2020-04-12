@@ -2,15 +2,9 @@ package com.example.androidapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -161,6 +155,45 @@ public class WaitActivity extends AppCompatActivity {
             }
         });
 
+        final DatabaseReference myRefRoute = database.getReference("routes");
+        myRefRoute.addChildEventListener(new ChildEventListener() {
+
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String idDriver = dataSnapshot.child("driver").getValue(String.class);
+
+                Intent intent = new Intent(WaitActivity.this, ProceedActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("idMyRoute",idMyRoute);
+                intent.putExtra("idDriver",idDriver);
+
+                finish();
+                startActivity(intent);
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -175,7 +208,6 @@ public class WaitActivity extends AppCompatActivity {
             }
 
         });
-
 
     }
 

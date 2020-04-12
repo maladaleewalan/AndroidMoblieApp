@@ -1,12 +1,12 @@
 package com.example.androidapp;
 
 public class Route {
-    private String driver,passsenger,place,start,dest,namepassenger,telpassenger,picpassenger;    //สถานะ,บันทึกแล้ว
+    private String driver, passenger,place,start,dest,namepassenger,telpassenger,picpassenger;    //สถานะ,บันทึกแล้ว
     boolean isWait;
 
-    public Route(String driver, String passsenger, String place, String start, String dest) {
+    public Route(String driver, String passenger, String place, String start, String dest) {
         this.driver = driver;
-        this.passsenger = passsenger;
+        this.passenger = passenger;
         this.place = place;
         this.start = start;
         this.dest = dest;
@@ -17,8 +17,8 @@ public class Route {
         this.driver = driver;
     }
 
-    public void setPasssenger(String passsenger) {
-        this.passsenger = passsenger;
+    public void setPassenger(String passenger) {
+        this.passenger = passenger;
     }
 
     public void setPlace(String place) {
@@ -53,8 +53,8 @@ public class Route {
         return driver;
     }
 
-    public String getPasssenger() {
-        return passsenger;
+    public String getPassenger() {
+        return passenger;
     }
 
     public String getPlace() {

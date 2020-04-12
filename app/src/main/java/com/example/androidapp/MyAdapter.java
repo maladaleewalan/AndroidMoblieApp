@@ -1,37 +1,32 @@
 package com.example.androidapp;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
 import java.util.List;
-
-import static android.provider.CalendarContract.CalendarCache.URI;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
@@ -42,7 +37,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
     private FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
     private DatabaseReference databaseReference = firebaseDatabase.getReference();
-    private ProgressDialog progressDialog;
+    private FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+
+
 
 
     public MyAdapter(List<Route> routes, Context context) {
@@ -58,7 +55,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         final Route listItem = listItems.get(position);
 
         if(listItem.getPicpassenger()!=null) {
@@ -88,11 +85,47 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                             holder.buttonPickup.setText("You Pick up");
                             holder.buttonPickup.setTextColor(Color.parseColor("#d84315"));
                             listItem.setWait(false);
-
-                            //set driver,iswait == false ลงใน database
+                            listItem.setDriver(firebaseAuth.getCurrentUser().getUid());
 
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myRef = database.getReference("routes");
+                        final DatabaseReference myRef = database.getReference("routes");
+                        myRef.addChildEventListener(new ChildEventListener() {
+                            @Override
+                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                                String start = dataSnapshot.child("start").getValue(String.class);
+                                String dest = dataSnapshot.child("dest").getValue(String.class);
+                                String passenger = dataSnapshot.child("passenger").getValue(String.class);
+                                if (start.equals(listItem.getStart()) && dest.equals(listItem.getDest()) && passenger.equals(listItem.getPassenger())) {
+
+                                    String key = dataSnapshot.getKey();
+                                    myRef.child(key).setValue(listItem);
+
+                                }
+
+                            }
+
+
+                            @Override
+                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                            }
+
+                            @Override
+                            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                            }
+
+                            @Override
+                            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                            }
+                        });
+
 
 
                     }
