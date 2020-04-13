@@ -4,6 +4,89 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".ProceedActivity">
+
+
+    <Button
+        android:id="@+id/btnEnd"
+        android:layout_width="138dp"
+        android:layout_height="55dp"
+        android:background="@color/colorLightYellow"
+        android:text="ถึงจุดส่ง"
+        android:textColor="@color/colorDarkGreen"
+        android:textSize="18sp"
+        app:backgroundTint="@color/colorLightYellow"
+        app:fontFamily="@font/sriracha"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.776"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDriverTel"
+        app:layout_constraintVertical_bias="0.536" />
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="276dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:text="รอสักครู่...คนขับกำลังมา"
+        android:textColor="#000000"
+        android:textSize="20dp"
+        app:fontFamily="@font/sriracha"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.548"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.061" />
+
+    <TextView
+        android:id="@+id/textDriverName"
+        android:layout_width="276dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:textColor="#424242"
+        android:textSize="20dp"
+        app:fontFamily="@font/sriracha"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.548"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageDriver"
+        app:layout_constraintVertical_bias="0.066" />
+
+    <TextView
+        android:id="@+id/textDriverTel"
+        android:layout_width="276dp"
+        android:layout_height="60dp"
+        android:gravity="center"
+        android:textColor="#424242"
+        android:textSize="20dp"
+        app:fontFamily="@font/sriracha"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.548"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDriverName"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ImageView
+        android:id="@+id/imageDriver"
+        android:layout_width="152dp"
+        android:layout_height="148dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text"
+        app:layout_constraintVertical_bias="0.067"
+        app:srcCompat="@drawable/register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

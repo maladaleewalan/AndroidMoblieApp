@@ -64,9 +64,6 @@ public class WaitActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-            case R.id.nav_profile:
-                return true;
-
             case R.id.nav_logout:   //this item has your app icon
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
                 final DatabaseReference myRefRoute = database.getReference("routes");

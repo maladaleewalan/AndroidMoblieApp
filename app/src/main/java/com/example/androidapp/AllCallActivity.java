@@ -12,8 +12,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,8 +20,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,9 +59,6 @@ public class AllCallActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-            case R.id.nav_profile:
-                return true;
-
             case R.id.nav_logout:   //this item has your app icon
                 firebaseAuth.signOut();
                 intent = new Intent(AllCallActivity.this,LoginActivity.class);
@@ -92,7 +85,7 @@ public class AllCallActivity extends AppCompatActivity {
 
 
         textShowPlace = (TextView) findViewById(R.id.textShowPlace);
-        textDontHave = (TextView) findViewById(R.id.textDontHave);
+        textDontHave = (TextView) findViewById(R.id.text);
 
        // mStorageRef = FirebaseStorage.getInstance().getReference("ImageFolder");
 
@@ -173,6 +166,10 @@ public class AllCallActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+                Intent intent = new Intent(AllCallActivity.this,AllCallActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                finish();
+                startActivity(intent);
 
             }
 

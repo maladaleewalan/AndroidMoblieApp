@@ -56,9 +56,6 @@ public class AppActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
 
-            case R.id.nav_profile:
-                return true;
-
             case R.id.nav_logout:   //this item has your app icon
                 firebaseAuth.signOut();
                 intent = new Intent(AppActivity.this,LoginActivity.class);

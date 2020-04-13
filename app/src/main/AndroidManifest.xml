@@ -20,7 +20,6 @@
         <activity android:name=".WaitActivity" />
         <activity android:name=".FormCarActivity" />
         <activity android:name=".AppActivity" />
-        <activity android:name=".ProfileActivity" />
         <activity android:name=".PicProfileActivity" />
         <activity android:name=".SignupActivity" />
         <activity android:name=".LoginActivity" />

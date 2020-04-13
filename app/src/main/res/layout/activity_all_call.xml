@@ -23,7 +23,7 @@
         app:layout_constraintVertical_bias="0.043" />
 
     <TextView
-        android:id="@+id/textDontHave"
+        android:id="@+id/text"
         android:layout_width="213dp"
         android:layout_height="32dp"
         android:layout_marginStart="8dp"
