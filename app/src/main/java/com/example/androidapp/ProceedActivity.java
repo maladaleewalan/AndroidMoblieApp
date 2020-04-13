@@ -2,11 +2,14 @@ package com.example.androidapp;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -30,12 +33,14 @@ public class ProceedActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("users");
     DatabaseReference myRefRoute = database.getReference("routes");
+    DatabaseReference myRefCar = database.getReference("cars");
+
 
 
     TextView textDriverName;
     TextView textDriverTel;
     ImageView imageDriver;
-    Button btnEnd;
+    Button btnEnd,btnCar;
 
 
     @Override
@@ -50,6 +55,7 @@ public class ProceedActivity extends AppCompatActivity {
         textDriverTel = (TextView)findViewById(R.id.textDriverTel);
         imageDriver  = (ImageView)findViewById(R.id.imageDriver);
         btnEnd = (Button)findViewById(R.id.btnEnd);
+        btnCar = (Button)findViewById(R.id.btnCar);
 
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
@@ -61,8 +67,9 @@ public class ProceedActivity extends AppCompatActivity {
                     textDriverName.setText("ชื่อคนขับ: "+driverName);
                     textDriverTel.setText("ติดต่อ: "+driverTel);
 
-                    String driverImage = dataSnapshot.child("picProfile").getValue(String.class);
-                    Picasso.with(ProceedActivity.this).load(driverImage).into(imageDriver);
+                    String driverImageUrl = dataSnapshot.child("profilePic").getValue(String.class);
+                    Picasso.with(ProceedActivity.this).load(driverImageUrl).into(imageDriver);
+                    Log.i("driverImageurl", "onChildAdded: "+driverImageUrl);
 
                 }
             }
@@ -88,6 +95,45 @@ public class ProceedActivity extends AppCompatActivity {
             }
         });
 
+        btnCar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                myRefCar.addChildEventListener(new ChildEventListener() {
+                    @Override
+                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        String driver = dataSnapshot.child("user_id").getValue(String.class);
+                        if(driver.equals(idDriver)) {
+                            String imageCarUrl = dataSnapshot.child("carPic").getValue(String.class);
+                            String regisCar = dataSnapshot.child("regis").getValue(String.class);
+                            openDialog(imageCarUrl,regisCar);
+                        }
+
+                    }
+
+                    @Override
+                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                    }
+
+                    @Override
+                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
+            }
+        });
+
         btnEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,9 +146,27 @@ public class ProceedActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
 
 
+    public void openDialog(String imageCarUrl,String regisCar)  {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(ProceedActivity.this);
+        LayoutInflater inflater;
+        inflater = LayoutInflater.from(ProceedActivity.this);
 
+        final View dialogView = inflater.inflate(R.layout.layout_dialog,null);
+        dialogBuilder.setView(dialogView);
+
+        ImageView imgShowCar = dialogView.findViewById(R.id.showCar);
+        TextView showRegis = dialogView.findViewById(R.id.showRegis);
+
+        showRegis.setText("ทะเขียนรถ: "+regisCar);
+        Picasso.with(ProceedActivity.this).load(imageCarUrl).into(imgShowCar);
+
+        final AlertDialog alertDialog = dialogBuilder.create();
+        alertDialog.show();
+
+        Log.i("showdialog", "openDialog: ");
 
     }
 }

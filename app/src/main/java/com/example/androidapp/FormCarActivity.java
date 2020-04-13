@@ -47,6 +47,8 @@ public class FormCarActivity extends AppCompatActivity {
     EditText editTextRegis;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +89,7 @@ public class FormCarActivity extends AppCompatActivity {
                 progressDialog.show();
 
 
-                StorageReference Imagename = Folder.child("image"+uri.getLastPathSegment());
+                final StorageReference Imagename = Folder.child("image"+uri.getLastPathSegment());
                 if(uri.equals(Uri.parse(""))) {
                     Toast.makeText(FormCarActivity.this, "Please upload car picture!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
@@ -100,11 +102,10 @@ public class FormCarActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         progressDialog.dismiss();
 
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myRef = database.getReference("cars");
+                        final DatabaseReference myRef = database.getReference("cars");
 
-                        String regis = editTextRegis.getText().toString();
-                        String place = mySpinner.getSelectedItem().toString();
+                        final String regis = editTextRegis.getText().toString();
+                        final String place = mySpinner.getSelectedItem().toString();
 
                         if(place.equals("เลือกตำแหน่งใกล้เคียง")) {
                             Toast.makeText(FormCarActivity.this, "กรุณาเลือกตำแหน่งใกล้เคียง!", Toast.LENGTH_SHORT).show();
@@ -115,11 +116,14 @@ public class FormCarActivity extends AppCompatActivity {
                             return;
                         }
 
-                        Car newCar = new Car(regis,place,taskSnapshot.getUploadSessionUri().toString(),firebaseAuth.getCurrentUser().getUid());
+                        Imagename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                Car newCar = new Car(regis,place,String.valueOf(uri),firebaseAuth.getCurrentUser().getUid());
+                                myRef.push().setValue(newCar);
 
-
-                        myRef.push().setValue(newCar);
-
+                            }
+                        });
                         Toast.makeText(FormCarActivity.this, "Upload Success", Toast.LENGTH_SHORT).show();
 
                         editTextRegis.setText("");

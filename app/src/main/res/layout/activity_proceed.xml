@@ -24,7 +24,25 @@
         app:layout_constraintHorizontal_bias="0.776"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textDriverTel"
-        app:layout_constraintVertical_bias="0.536" />
+        app:layout_constraintVertical_bias="0.225" />
+
+    <Button
+        android:id="@+id/btnCar"
+        android:layout_width="100dp"
+        android:layout_height="55dp"
+        android:background="#80deea "
+        android:text="ดูรถ"
+        android:textColor="@color/colorDarkGreen"
+        android:textSize="18sp"
+        app:backgroundTint="#80deea "
+        app:fontFamily="@font/sriracha"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnEnd"
+        app:layout_constraintHorizontal_bias="0.66"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textDriverTel"
+        app:layout_constraintVertical_bias="0.225" />
 
     <TextView
         android:id="@+id/text"
@@ -78,15 +96,16 @@
         app:layout_constraintTop_toBottomOf="@+id/textDriverName"
         app:layout_constraintVertical_bias="0.0" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imageDriver"
         android:layout_width="152dp"
         android:layout_height="148dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text"
-        app:layout_constraintVertical_bias="0.067"
+        app:layout_constraintVertical_bias="0.02"
         app:srcCompat="@drawable/register" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

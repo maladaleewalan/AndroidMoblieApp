@@ -133,7 +133,6 @@ public class AllCallActivity extends AppCompatActivity {
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //  Log.i("allroute", "onChildAdded: "+dataSnapshot.getValue());
                 String start = dataSnapshot.child("start").getValue(String.class);
                 String dest = dataSnapshot.child("dest").getValue(String.class);
                 String passenger = dataSnapshot.child("passenger").getValue(String.class);

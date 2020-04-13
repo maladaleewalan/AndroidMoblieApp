@@ -3,6 +3,7 @@ package com.example.androidapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Color;
+import android.net.Uri;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,8 +60,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         final Route listItem = listItems.get(position);
 
         if(listItem.getPicpassenger()!=null) {
-            Picasso.with(this.context).setLoggingEnabled(true);
             Picasso.with(this.context).load(listItem.getPicpassenger()).into(holder.imageView);
+            Log.i("uri", "onBindViewHolder: "+listItem.getPicpassenger());
         }
         else {
 
@@ -162,7 +163,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             startCall = (TextView) itemView.findViewById(R.id.startCall);
             destCall = (TextView) itemView.findViewById(R.id.destCall);
             telCall= (TextView) itemView.findViewById(R.id.telCall);
-            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+            imageView = itemView.findViewById(R.id.imageView);
             linearLayout = itemView.findViewById(R.id.LinearLayout);
             buttonPickup = (Button) itemView.findViewById(R.id.buttonPickup);
 

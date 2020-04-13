@@ -29,6 +29,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.util.HashMap;
+
 public class PicProfileActivity extends AppCompatActivity {
 
     private StorageReference Folder;
@@ -39,6 +41,9 @@ public class PicProfileActivity extends AppCompatActivity {
 
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     String nextpage = "";
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
 
 
     @Override
@@ -69,7 +74,7 @@ public class PicProfileActivity extends AppCompatActivity {
                 progressDialog.show();
 
 
-                StorageReference Imagename = Folder.child("image"+uri.getLastPathSegment());
+                final StorageReference Imagename = Folder.child("image"+uri.getLastPathSegment());
                 if(uri.equals(Uri.parse(""))) {
                     Toast.makeText(PicProfileActivity.this, "Please upload profile picture!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
@@ -82,11 +87,18 @@ public class PicProfileActivity extends AppCompatActivity {
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         progressDialog.dismiss();
 
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myRef = database.getReference("users");
-                        myRef.child(firebaseAuth.getCurrentUser().getUid()).child("profilePic").setValue(taskSnapshot.getUploadSessionUri().toString());
-//                        myRef.child(firebaseAuth.getCurrentUser().getUid()).child("profilePic").setValue(String.valueOf(uri));
 
+                        Imagename.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                DatabaseReference myRefUser = FirebaseDatabase.getInstance().getReference().child("users");
+                                myRefUser.child(firebaseAuth.getCurrentUser().getUid()).child("profilePic").setValue(String.valueOf(uri));
+
+                            }
+                        });
+
+
+                        DatabaseReference myRef = database.getReference("users");
                         myRef.addChildEventListener(new ChildEventListener() {
                             @Override
                             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
