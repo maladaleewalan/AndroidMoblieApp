@@ -101,10 +101,13 @@ public class AllCallActivity extends AppCompatActivity {
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String Userid = firebaseAuth.getCurrentUser().getUid();
-                if(dataSnapshot.child("user_id").getValue(String.class).equals(Userid)) {
-                    textShowPlace.setText(dataSnapshot.child("place").getValue(String.class));
+                if(firebaseAuth.getCurrentUser().getUid() != null) {
+                    String Userid = firebaseAuth.getCurrentUser().getUid();
+                    if(dataSnapshot.child("user_id").getValue(String.class).equals(Userid)) {
+                        textShowPlace.setText(dataSnapshot.child("place").getValue(String.class));
+                    }
                 }
+
             }
 
             @Override

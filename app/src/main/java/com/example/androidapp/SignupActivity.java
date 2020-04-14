@@ -38,6 +38,9 @@ public class SignupActivity extends AppCompatActivity {
 
     String email,password,firstname,lastname,tel,role = "";
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("users");
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,15 +117,21 @@ public class SignupActivity extends AppCompatActivity {
                             editTextFirstname.setText("");
                             editTextLastname.setText("");
 
-
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            DatabaseReference myRef = database.getReference("users");
-
                             User newUser = new User(email,firstname,lastname,tel,role);
 
                             myRef.child(firebaseAuth.getCurrentUser().getUid()).setValue(newUser);
+//                                                next(role);
+                            editTextEmail.setText("");
+                            editTextPassword.setText("");
+                            editTextFirstname.setText("");
+                            editTextLastname.setText("");
+                            editTextTel.setText("");
 
-                            next();
+                            Intent intent = new Intent(SignupActivity.this,PicProfileActivity.class);
+                            intent.putExtra("roleUser",role);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            finish();
+                            startActivity(intent);
 
                         }
                         else {
@@ -131,6 +140,8 @@ public class SignupActivity extends AppCompatActivity {
                         }
                         progressDialog.dismiss();
 
+
+
                     }
                 });
 
@@ -138,17 +149,18 @@ public class SignupActivity extends AppCompatActivity {
         });
     }
 
-    public void next() {
-        editTextEmail.setText("");
-        editTextPassword.setText("");
-        editTextFirstname.setText("");
-        editTextLastname.setText("");
-        editTextTel.setText("");
-
-        Intent intent = new Intent(SignupActivity.this,PicProfileActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        finish();
-        startActivity(intent);
+    public void next(String role) {
+//        editTextEmail.setText("");
+//        editTextPassword.setText("");
+//        editTextFirstname.setText("");
+//        editTextLastname.setText("");
+//        editTextTel.setText("");
+//
+//        Intent intent = new Intent(SignupActivity.this,PicProfileActivity.class);
+//        intent.putExtra("roleUser",role);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        finish();
+//        startActivity(intent);
     }
 
     public void ClickSignin(View v) {

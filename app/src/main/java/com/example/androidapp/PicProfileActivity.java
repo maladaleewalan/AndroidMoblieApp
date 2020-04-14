@@ -67,12 +67,10 @@ public class PicProfileActivity extends AppCompatActivity {
 
         buttonPicNext.setOnClickListener(new View.OnClickListener() {
 
-
             @Override
             public void onClick(View v) {
                 progressDialog.setMessage("Uploading...Please Wait");
                 progressDialog.show();
-
 
                 final StorageReference Imagename = Folder.child("image"+uri.getLastPathSegment());
                 if(uri.equals(Uri.parse(""))) {
@@ -98,60 +96,81 @@ public class PicProfileActivity extends AppCompatActivity {
                         });
 
 
-                        DatabaseReference myRef = database.getReference("users");
-                        myRef.addChildEventListener(new ChildEventListener() {
-                            @Override
-                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-                                String key = dataSnapshot.getKey();
-                                if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
-                                    String role = dataSnapshot.child("role").getValue(String.class);
+                        Intent intent = getIntent();
+                        String roleUser = intent.getStringExtra("roleUser");
+                        if (roleUser.equals("Driver")) {
 
-                                    if(role.equals("Driver")) {
-                                        nextpage = "Driver";
-                                    }
-                                    else {
-                                        nextpage = "app";
-                                    }
-                                    if(nextpage.equals("Driver")) {
-                                        uri = Uri.parse("");
+                            uri = Uri.parse("");
 
-                                        Intent intent = new Intent(PicProfileActivity.this,FormCarActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        finish();
-                                        startActivity(intent);
-                                    }
+                            intent = new Intent(PicProfileActivity.this, FormCarActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            finish();
+                            startActivity(intent);
 
-                                    else if(nextpage.equals("app")) {
-                                        uri = Uri.parse("");
+                        } else {
+                            uri = Uri.parse("");
 
-                                        Intent intent = new Intent(PicProfileActivity.this,AppActivity.class);
-                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                                        finish();
-                                        startActivity(intent);
-                                    }
-                                }
-                            }
+                            intent = new Intent(PicProfileActivity.this, AppActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            finish();
+                            startActivity(intent);
+                        }
 
-                            @Override
-                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                            }
-
-                            @Override
-                            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                            }
-
-                            @Override
-                            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                            }
-                        });
+//                        DatabaseReference myRef = database.getReference("users");
+//                        myRef.addChildEventListener(new ChildEventListener() {
+//                            @Override
+//                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
+//                                String key = dataSnapshot.getKey();
+//                                if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
+//                                    String role = dataSnapshot.child("role").getValue(String.class);
+//
+//                                    if(role.equals("Driver")) {
+//                                        nextpage = "Driver";
+//                                    }
+//                                    else {
+//                                        nextpage = "app";
+//                                    }
+//                                    if(nextpage.equals("Driver")) {
+//                                        uri = Uri.parse("");
+//
+//                                        Intent intent = new Intent(PicProfileActivity.this,FormCarActivity.class);
+//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                        finish();
+//                                        startActivity(intent);
+//                                    }
+//
+//                                    else if(nextpage.equals("app")) {
+//                                        uri = Uri.parse("");
+//
+//                                        Intent intent = new Intent(PicProfileActivity.this,AppActivity.class);
+//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                                        finish();
+//                                        startActivity(intent);
+//                                    }
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
 
                         Toast.makeText(PicProfileActivity.this, "Upload Success", Toast.LENGTH_SHORT).show();
 
