@@ -163,13 +163,14 @@ public class WaitActivity extends AppCompatActivity {
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 String idDriver = dataSnapshot.child("driver").getValue(String.class);
 
-                Intent intent = new Intent(WaitActivity.this, ProceedActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.putExtra("idMyRoute",idMyRoute);
-                intent.putExtra("idDriver",idDriver);
-
-                finish();
-                startActivity(intent);
+                goToProceed(idMyRoute,idDriver);
+//                Intent intent = new Intent(WaitActivity.this, ProceedActivity.class);
+//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                intent.putExtra("idMyRoute",idMyRoute);
+//                intent.putExtra("idDriver",idDriver);
+//
+//                finish();
+//                startActivity(intent);
             }
 
             @Override
@@ -211,5 +212,15 @@ public class WaitActivity extends AppCompatActivity {
     public void back() {
         startActivity(new Intent(WaitActivity.this,AppActivity.class));
         Toast.makeText(WaitActivity.this, "การ call driver ถูกยกเลิก!", Toast.LENGTH_SHORT).show();
+    }
+
+    public void goToProceed(String idMyRoute,String idDriver) {
+        Intent intent = new Intent(WaitActivity.this, ProceedActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.putExtra("idMyRoute",idMyRoute);
+        intent.putExtra("idDriver",idDriver);
+
+        finish();
+        startActivity(intent);
     }
 }

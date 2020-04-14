@@ -36,7 +36,7 @@ public class AllCallActivity extends AppCompatActivity {
 
 
 
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
+    FirebaseAuth firebaseAuth;
 
     TextView textShowPlace,textDontHave;
 
@@ -79,6 +79,8 @@ public class AllCallActivity extends AppCompatActivity {
         Log.i("stay", "onCreate: AllCallActivity");
         setItem = new ArrayList<>();
 
+        firebaseAuth = FirebaseAuth.getInstance();
+
         recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -107,7 +109,6 @@ public class AllCallActivity extends AppCompatActivity {
                         textShowPlace.setText(dataSnapshot.child("place").getValue(String.class));
                     }
                 }
-
             }
 
             @Override

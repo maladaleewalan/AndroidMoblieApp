@@ -26,6 +26,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class AppActivity extends AppCompatActivity {
 
@@ -124,6 +125,8 @@ public class AppActivity extends AppCompatActivity {
                 DatabaseReference myRefUser = database.getReference("users");
 
                 final Route newRoute = new Route("",firebaseAuth.getCurrentUser().getUid(),place,start,dest);
+                final String id = myRef.push().getKey();
+
 
                 myRefUser.addChildEventListener(new ChildEventListener() {
                     @Override
@@ -133,23 +136,14 @@ public class AppActivity extends AppCompatActivity {
                             String namepass = dataSnapshot.child("firstname").getValue(String.class);
                             String telpass = dataSnapshot.child("tel").getValue(String.class);
                             String uri = dataSnapshot.child("profilePic").getValue(String.class);
-                            Log.i("url", "onChildAdded: "+uri);
                             newRoute.setNamepassenger(namepass);
                             newRoute.setTelpassenger(telpass);
                             newRoute.setPicpassenger(uri);
-
-                            String id = myRef.push().getKey();
 
                             myRef.child(id).setValue(newRoute);
 
                             editTextStart.setText("");
                             editTextDest.setText("");
-                            Intent intent = new Intent(AppActivity.this,WaitActivity.class);
-                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                            intent.putExtra("idMyRoute",id);
-                            finish();
-                            startActivity(intent);
-
 
                         }
                     }
@@ -174,6 +168,15 @@ public class AppActivity extends AppCompatActivity {
 
                     }
                 });
+
+                Intent intent = new Intent(AppActivity.this,WaitActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.putExtra("idMyRoute",id);
+
+                Log.i("test", "onClick: id= "+id);
+                finish();
+                startActivity(intent);
+
 
 
             }

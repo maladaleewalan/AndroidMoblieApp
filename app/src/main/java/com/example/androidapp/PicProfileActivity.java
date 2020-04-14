@@ -99,7 +99,6 @@ public class PicProfileActivity extends AppCompatActivity {
                         Intent intent = getIntent();
                         String roleUser = intent.getStringExtra("roleUser");
                         if (roleUser.equals("Driver")) {
-
                             uri = Uri.parse("");
 
                             intent = new Intent(PicProfileActivity.this, FormCarActivity.class);
@@ -116,62 +115,6 @@ public class PicProfileActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
 
-
-//                        DatabaseReference myRef = database.getReference("users");
-//                        myRef.addChildEventListener(new ChildEventListener() {
-//                            @Override
-//                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, String s) {
-//                                String key = dataSnapshot.getKey();
-//                                if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
-//                                    String role = dataSnapshot.child("role").getValue(String.class);
-//
-//                                    if(role.equals("Driver")) {
-//                                        nextpage = "Driver";
-//                                    }
-//                                    else {
-//                                        nextpage = "app";
-//                                    }
-//                                    if(nextpage.equals("Driver")) {
-//                                        uri = Uri.parse("");
-//
-//                                        Intent intent = new Intent(PicProfileActivity.this,FormCarActivity.class);
-//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                                        finish();
-//                                        startActivity(intent);
-//                                    }
-//
-//                                    else if(nextpage.equals("app")) {
-//                                        uri = Uri.parse("");
-//
-//                                        Intent intent = new Intent(PicProfileActivity.this,AppActivity.class);
-//                                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                                        finish();
-//                                        startActivity(intent);
-//                                    }
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-
                         Toast.makeText(PicProfileActivity.this, "Upload Success", Toast.LENGTH_SHORT).show();
 
                    }
@@ -179,11 +122,6 @@ public class PicProfileActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void goNextPage() {
-
-    }
-
 
     public void uploadClick(View view) {
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

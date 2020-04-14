@@ -1,7 +1,7 @@
 package com.example.androidapp;
 
 public class Route {
-    private String driver, passenger,place,start,dest,namepassenger,telpassenger,picpassenger;    //สถานะ,บันทึกแล้ว
+    private String driver,passenger,place,start,dest,namepassenger,telpassenger,picpassenger;    //สถานะ,บันทึกแล้ว
     boolean isWait;
 
     public Route(String driver, String passenger, String place, String start, String dest) {
