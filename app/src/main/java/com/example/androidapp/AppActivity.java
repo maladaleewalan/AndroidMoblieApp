@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -33,11 +34,11 @@ public class AppActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
     private Button buttonSubmit;
+    boolean save = false;
     EditText editTextStart,editTextDest;
+    TextView textViewHistory;
 
     String start,dest,place = "";
-
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -79,6 +80,8 @@ public class AppActivity extends AppCompatActivity {
         buttonSubmit = findViewById(R.id.buttonSubmit);
         editTextStart = (EditText)findViewById(R.id.editTextStart);
         editTextDest = (EditText)findViewById(R.id.editTextDest);
+        textViewHistory = (TextView)findViewById(R.id.textViewHistory);
+
 
         final Spinner mySpinner = (Spinner) findViewById(R.id.spinner);
         final ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(AppActivity.this,
@@ -173,11 +176,18 @@ public class AppActivity extends AppCompatActivity {
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("idMyRoute",id);
 
-                Log.i("test", "onClick: id= "+id);
                 finish();
                 startActivity(intent);
+            }
+        });
 
-
+        textViewHistory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AppActivity.this,HistoryActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                finish();
+                startActivity(intent);
 
             }
         });

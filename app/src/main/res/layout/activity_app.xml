@@ -13,10 +13,10 @@
         android:layout_height="wrap_content"
         android:background="@color/colorLightYellow"
         android:text="Submit"
-        android:textColor="@color/colorDarkGreen"
-        android:textSize="18sp"
         app:backgroundTint="@color/colorLightYellow"
         app:fontFamily="@font/press_start_2p"
+        android:textColor="@color/colorDarkGreen"
+        android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.775"
@@ -107,4 +107,18 @@
         app:layout_constraintTop_toTopOf="@+id/editTextDest"
         app:layout_constraintVertical_bias="0.0"
         tools:ignore="MissingConstraints" />
+
+    <TextView
+        android:id="@+id/textViewHistory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ดูประวัติการเรียกรถ"
+        android:textColor="@color/colorLightRed"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.045"
+        app:layout_constraintStart_toStartOf="@+id/editTextStart"
+        app:layout_constraintTop_toBottomOf="@+id/editTextStart"
+        app:layout_constraintVertical_bias="0.018" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -48,6 +48,8 @@ public class ProceedActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_proceed);
 
+        Log.i("stay", "onCreate: ProceedActivity");
+
         Intent intent = getIntent();
         idMyRoute = intent.getStringExtra("idMyRoute");
         idDriver = intent.getStringExtra("idDriver");
@@ -137,7 +139,9 @@ public class ProceedActivity extends AppCompatActivity {
         btnEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myRefRoute.child(idMyRoute).setValue(null);
+                myRefRoute.child(idMyRoute).child("save").setValue(true);
+                myRefRoute.child(idMyRoute).child("wait").setValue(true);
+                myRefRoute.child(idMyRoute).child("driver").setValue("");
                 Toast.makeText(ProceedActivity.this, "ขอบคุณที่ใช้บริการ", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ProceedActivity.this,AppActivity.class);
@@ -160,7 +164,7 @@ public class ProceedActivity extends AppCompatActivity {
         ImageView imgShowCar = dialogView.findViewById(R.id.showCar);
         TextView showRegis = dialogView.findViewById(R.id.showRegis);
 
-        showRegis.setText("ทะเขียนรถ: "+regisCar);
+        showRegis.setText("ทะเบียนรถ: "+regisCar);
         Picasso.with(ProceedActivity.this).load(imageCarUrl).into(imgShowCar);
 
         final AlertDialog alertDialog = dialogBuilder.create();

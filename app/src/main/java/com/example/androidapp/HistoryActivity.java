@@ -12,6 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,7 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AllCallActivity extends AppCompatActivity {
+public class HistoryActivity extends AppCompatActivity {
+
+    private FirebaseAuth firebaseAuth;
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -32,12 +36,10 @@ public class AllCallActivity extends AppCompatActivity {
     private List<Route> listItems,setItem;
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference myRef = database.getReference("routes");
 
-
-    FirebaseAuth firebaseAuth;
-
-    TextView textShowPlace,textDontHave;
-
+    TextView textDontHave;
+    Button buttonBack;
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -51,7 +53,7 @@ public class AllCallActivity extends AppCompatActivity {
         Intent intent;
         switch(item.getItemId()){
             case R.id.nav_home:
-                intent = new Intent(AllCallActivity.this,AllCallActivity.class);
+                intent = new Intent(HistoryActivity.this,AppActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 finish();
                 startActivity(intent);
@@ -59,8 +61,7 @@ public class AllCallActivity extends AppCompatActivity {
 
             case R.id.nav_logout:   //this item has your app icon
                 firebaseAuth.signOut();
-                intent = new Intent(AllCallActivity.this,LoginActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent = new Intent(HistoryActivity.this,LoginActivity.class);
                 finish();
                 startActivity(intent);
                 return true;
@@ -72,90 +73,63 @@ public class AllCallActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_all_call);
+        setContentView(R.layout.activity_history);
 
-        Log.i("stay", "onCreate: AllCallActivity");
+        Log.i("stay", "onCreate: HistoryActivity");
+
+
         setItem = new ArrayList<>();
 
         firebaseAuth = FirebaseAuth.getInstance();
 
-        recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        recyclerView = (RecyclerView) findViewById(R.id.recyclerViewHistory);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
-        textShowPlace = (TextView) findViewById(R.id.textShowPlace);
-        textDontHave = (TextView) findViewById(R.id.text);
+        buttonBack = findViewById(R.id.buttonBack);
 
         if(firebaseAuth.getCurrentUser() == null) {
-            Intent intent = new Intent(AllCallActivity.this,LoginActivity.class);
+            Intent intent = new Intent(HistoryActivity.this,LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             finish();
             startActivity(intent);
         }
 
-        DatabaseReference myRef = database.getReference("cars");
-
+        textDontHave = (TextView) findViewById(R.id.textDontHaveHistory);
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                if(firebaseAuth.getCurrentUser() != null) {
+//                String key = dataSnapshot.getKey();
+//                if(!(dataSnapshot.child(key).child("driver").getValue(String.class).equals(""))) {
+//                    myRef.child("driver").setValue("");
+//                }
+//                Log.i("checkwait", "onChildAdded: "+dataSnapshot.child(key).child("wait"));
+////                if(dataSnapshot.child(key).child("wait").getValue(boolean.class) == false) {
+////                    myRef.child("wait").setValue(true);
+////                }
+
+                if(dataSnapshot.child("save").getValue(boolean.class)) {
+                    String place = dataSnapshot.child("place").getValue(String.class);
+                    String start = dataSnapshot.child("start").getValue(String.class);
+                    String dest = dataSnapshot.child("dest").getValue(String.class);
+                    String passenger = dataSnapshot.child("passenger").getValue(String.class);
+
                     String Userid = firebaseAuth.getCurrentUser().getUid();
-                    if(dataSnapshot.child("user_id").getValue(String.class).equals(Userid)) {
-                        textShowPlace.setText(dataSnapshot.child("place").getValue(String.class));
+                    if(passenger.equals(Userid)) {
+                        Route routeHistory = new Route("",passenger,place,start,dest);
+                        routeHistory.setPicpassenger(dataSnapshot.child("picpassenger").getValue(String.class));
+                        routeHistory.setNamepassenger(dataSnapshot.child("namepassenger").getValue(String.class));
+                        routeHistory.setTelpassenger(dataSnapshot.child("telpassenger").getValue(String.class));
+                        setItem.add(routeHistory);
+
+                        listItems = new ArrayList<>();
+
+                        for (Route r : setItem) {
+                            listItems.add(r);
+                        }
                     }
                 }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-
-        myRef = database.getReference("routes");
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String start = dataSnapshot.child("start").getValue(String.class);
-                String dest = dataSnapshot.child("dest").getValue(String.class);
-                String passenger = dataSnapshot.child("passenger").getValue(String.class);
-                String place = dataSnapshot.child("place").getValue(String.class);
-                boolean save = dataSnapshot.child("save").getValue(boolean.class);
-
-                Route routeShow = new Route("",passenger,place,start,dest);
-                routeShow.setPicpassenger(dataSnapshot.child("picpassenger").getValue(String.class));
-                routeShow.setNamepassenger(dataSnapshot.child("namepassenger").getValue(String.class));
-                routeShow.setTelpassenger(dataSnapshot.child("telpassenger").getValue(String.class));
-
-                Log.i("checksave", "onChildAdded: "+save);
-                if(place.equals(textShowPlace.getText().toString()) && !save) {
-                    setItem.add(routeShow);
-                }
-
-                listItems = new ArrayList<>();
-
-                for (Route r : setItem) {
-                    listItems.add(r);
-                }
-
-                adapter = new MyAdapter(listItems,AllCallActivity.this);
+                adapter = new MyadapterHistory(listItems,HistoryActivity.this);
                 recyclerView.setAdapter(adapter);
 
             }
@@ -167,10 +141,6 @@ public class AllCallActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-                Intent intent = new Intent(AllCallActivity.this,AllCallActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                finish();
-                startActivity(intent);
 
             }
 
@@ -183,18 +153,22 @@ public class AllCallActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-
-
         });
 
         if(setItem.size() == 0) {
-            textDontHave.setText("ยังไม่มีการเรียกรถในตำแหน่งนี้");
+            textDontHave.setText("ยังไม่มีประวัติการเรียกรถ");
         }
+
+        buttonBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HistoryActivity.this,AppActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                finish();
+                startActivity(intent);
+            }
+        });
 
 
     }
-
-
-
-
 }
