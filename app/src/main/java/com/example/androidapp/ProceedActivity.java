@@ -71,7 +71,6 @@ public class ProceedActivity extends AppCompatActivity {
 
                     String driverImageUrl = dataSnapshot.child("profilePic").getValue(String.class);
                     Picasso.with(ProceedActivity.this).load(driverImageUrl).into(imageDriver);
-                    Log.i("driverImageurl", "onChildAdded: "+driverImageUrl);
 
                 }
             }
@@ -142,6 +141,8 @@ public class ProceedActivity extends AppCompatActivity {
                 myRefRoute.child(idMyRoute).child("save").setValue(true);
                 myRefRoute.child(idMyRoute).child("wait").setValue(true);
                 myRefRoute.child(idMyRoute).child("driver").setValue("");
+
+           //     myRefRoute.child(idMyRoute).setValue(null);
                 Toast.makeText(ProceedActivity.this, "ขอบคุณที่ใช้บริการ", Toast.LENGTH_SHORT).show();
 
                 Intent intent = new Intent(ProceedActivity.this,AppActivity.class);
@@ -169,8 +170,6 @@ public class ProceedActivity extends AppCompatActivity {
 
         final AlertDialog alertDialog = dialogBuilder.create();
         alertDialog.show();
-
-        Log.i("showdialog", "openDialog: ");
 
     }
 }

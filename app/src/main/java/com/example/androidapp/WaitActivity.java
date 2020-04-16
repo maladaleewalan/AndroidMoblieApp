@@ -157,20 +157,21 @@ public class WaitActivity extends AppCompatActivity {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String key = dataSnapshot.getKey();
+                if(key.equals(idMyRoute)) {
+                    myRef.child(key).child("driver").setValue("");
+                    myRef.child(key).child("wait").setValue(true);
+                }
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                String key = dataSnapshot.getKey();
                 String idDriver = dataSnapshot.child("driver").getValue(String.class);
 
-                goToProceed(idMyRoute,idDriver);
-//                Intent intent = new Intent(WaitActivity.this, ProceedActivity.class);
-//                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                intent.putExtra("idMyRoute",idMyRoute);
-//                intent.putExtra("idDriver",idDriver);
-//
-//                finish();
-//                startActivity(intent);
+                if(key.equals(idMyRoute) && !(dataSnapshot.child("driver").getValue().equals(""))) {
+                    goToProceed(idMyRoute,idDriver);
+                }
             }
 
             @Override

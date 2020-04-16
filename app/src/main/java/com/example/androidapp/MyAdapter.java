@@ -101,9 +101,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                                     myRef.child(key).setValue(listItem);
 
                                 }
-
                             }
-
 
                             @Override
                             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {

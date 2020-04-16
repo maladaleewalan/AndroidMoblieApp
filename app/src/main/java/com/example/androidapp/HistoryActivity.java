@@ -99,14 +99,6 @@ public class HistoryActivity extends AppCompatActivity {
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                String key = dataSnapshot.getKey();
-//                if(!(dataSnapshot.child(key).child("driver").getValue(String.class).equals(""))) {
-//                    myRef.child("driver").setValue("");
-//                }
-//                Log.i("checkwait", "onChildAdded: "+dataSnapshot.child(key).child("wait"));
-////                if(dataSnapshot.child(key).child("wait").getValue(boolean.class) == false) {
-////                    myRef.child("wait").setValue(true);
-////                }
 
                 if(dataSnapshot.child("save").getValue(boolean.class)) {
                     String place = dataSnapshot.child("place").getValue(String.class);
@@ -124,9 +116,12 @@ public class HistoryActivity extends AppCompatActivity {
 
                         listItems = new ArrayList<>();
 
-                        for (Route r : setItem) {
-                            listItems.add(r);
+                        for(int i = setItem.size()-1;i>=0;i--) {
+                            listItems.add(setItem.get(i));
+
                         }
+//                        for (Route r : setItem) {
+//                        }
                     }
                 }
                 adapter = new MyadapterHistory(listItems,HistoryActivity.this);
@@ -157,6 +152,8 @@ public class HistoryActivity extends AppCompatActivity {
 
         if(setItem.size() == 0) {
             textDontHave.setText("ยังไม่มีประวัติการเรียกรถ");
+        } else {
+            textDontHave.setText("");
         }
 
         buttonBack.setOnClickListener(new View.OnClickListener() {

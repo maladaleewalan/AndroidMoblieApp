@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.text.LoginFilter;
 import android.text.TextUtils;
 import android.util.Log;
@@ -26,14 +27,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
+public class LoginActivity extends AppCompatActivity{
 
     private Button butonSignin;
     private EditText editTextEmail,editTextPassword;
     private ProgressDialog progressDialog;
     private FirebaseAuth firebaseAuth;
-
-    String nextpage = "";
 
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("users");
@@ -85,21 +84,28 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressDialog.dismiss();
 
+
                 if(task.isSuccessful()) {
-                    checkRole();
-                    return ;
+                    DatabaseReference d = FirebaseDatabase.getInstance().getReference().child("users").child(firebaseAuth.getCurrentUser().getUid());
+                    d.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String role = dataSnapshot.child("role").getValue(String.class);
+                            nextPage(role);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
                 }
                 else {
                     Toast.makeText(LoginActivity.this, "Sign in fail. Please try again", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
-    }
-
-
-    @Override
-    public void onClick(View v) {
-
     }
 
     public void ClickSignup(View v) {
@@ -109,58 +115,29 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         startActivity(intent);
     }
 
-    public void checkRole() {
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String key = dataSnapshot.getKey();
-                if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
-                    String role = dataSnapshot.child("role").getValue(String.class);
+    public void nextPage(String role) {
 
-                    if(role.equals("Driver")) {
-//                        Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+        if(role.equals("Driver")) {
+            Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
 
-                        editTextEmail.setText("");
-                        editTextPassword.setText("");
+            editTextEmail.setText("");
+            editTextPassword.setText("");
 
-                        Intent intent = new Intent(LoginActivity.this,AllCallActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        finish();
-                        startActivity(intent);
-                    }
-                    else {
-//                        Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+            Intent intent = new Intent(LoginActivity.this,AllCallActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            finish();
+            startActivity(intent);
+        }else if(role.equals("Student/Teacher/Officer") || role.equals("Other")) {
+            Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
 
-                        editTextEmail.setText("");
-                        editTextPassword.setText("");
+            editTextEmail.setText("");
+            editTextPassword.setText("");
 
-                        Intent intent = new Intent(LoginActivity.this,AppActivity.class);
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        finish();
-                        startActivity(intent);
-                    }
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+            Intent intent = new Intent(LoginActivity.this,AppActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            finish();
+            startActivity(intent);
+        }
+        Log.i("checkrole next", "checkRole: "+role);
     }
 }

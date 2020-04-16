@@ -144,7 +144,6 @@ public class AllCallActivity extends AppCompatActivity {
                 routeShow.setNamepassenger(dataSnapshot.child("namepassenger").getValue(String.class));
                 routeShow.setTelpassenger(dataSnapshot.child("telpassenger").getValue(String.class));
 
-                Log.i("checksave", "onChildAdded: "+save);
                 if(place.equals(textShowPlace.getText().toString()) && !save) {
                     setItem.add(routeShow);
                 }

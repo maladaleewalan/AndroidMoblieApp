@@ -1,6 +1,8 @@
 package com.example.androidapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +12,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.List;
 
 public class MyadapterHistory extends RecyclerView.Adapter<MyadapterHistory.ViewHolderHistory> {
 
     private List<Route> listItems;
     private Context context;
+
+
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    final DatabaseReference myRef = database.getReference("routes");
 
     public MyadapterHistory(List<Route> routes,Context context) {
         this.listItems = routes;
@@ -36,6 +45,24 @@ public class MyadapterHistory extends RecyclerView.Adapter<MyadapterHistory.View
         holder.historyStart.setText("จุดรับ: "+listItem.getStart());
         holder.historyDest.setText("จุดส่ง: "+listItem.getDest());
         holder.historyPlace.setText(listItem.getPlace());
+
+        holder.buttonCall.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent (v.getContext(), WaitActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                Route newRoute = new Route("",listItem.getPassenger(),listItem.getPlace(),listItem.getStart(),listItem.getDest());
+                newRoute.setPicpassenger(listItem.getPicpassenger());
+                newRoute.setTelpassenger(listItem.getTelpassenger());
+                newRoute.setNamepassenger(listItem.getNamepassenger());
+
+                final String id = myRef.push().getKey();
+                myRef.child(id).setValue(newRoute);
+                intent.putExtra("idMyRoute",id);
+
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
