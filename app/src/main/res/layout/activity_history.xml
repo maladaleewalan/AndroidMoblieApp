@@ -41,13 +41,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewHistory"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="370dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2"
-        app:layout_constraintVertical_bias="0.054"></androidx.recyclerview.widget.RecyclerView>
+        app:layout_constraintVertical_bias="0.201"></androidx.recyclerview.widget.RecyclerView>
 
     <Button
         android:id="@+id/buttonBack"
@@ -66,5 +66,5 @@
         app:layout_constraintHorizontal_bias="0.179"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewHistory"
-        app:layout_constraintVertical_bias="0.595" />
+        app:layout_constraintVertical_bias="0.431" />
 </androidx.constraintlayout.widget.ConstraintLayout>

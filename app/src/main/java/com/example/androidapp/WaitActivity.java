@@ -23,6 +23,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -153,23 +154,59 @@ public class WaitActivity extends AppCompatActivity {
         });
 
         final DatabaseReference myRefRoute = database.getReference("routes");
+//        DatabaseReference d = FirebaseDatabase.getInstance().getReference().child("routes").child(idMyRoute);
+//
+//        Log.i("onDataChange", "onCreate: "+idMyRoute);
+//        d.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                Log.i("allvalue", "onDataChange: "+dataSnapshot.getValue());
+//
+//                String idDriver = dataSnapshot.child("driver").getValue(String.class);
+//                Log.i("idDriver", "onDataChange: "+idDriver);
+//
+//                if(idDriver != null) {
+//                    if(!idDriver.equals("")) {
+//                        Log.i("inif", "onDataChange: ");
+//                        goToProceed(idMyRoute,idDriver);
+//                    }
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+
         myRefRoute.addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                String key = dataSnapshot.getKey();
-                if(key.equals(idMyRoute)) {
-                    myRef.child(key).child("driver").setValue("");
-                    myRef.child(key).child("wait").setValue(true);
-                }
+//                String key = dataSnapshot.getKey();
+//                if(key.equals(idMyRoute)) {
+//                    myRef.child(key).child("driver").setValue("");
+//                    myRef.child(key).child("wait").setValue(true);
+//                }
+
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.i("stay", "onChildChanged: onChildChanged in wait");
+            //    Log.i("stay idmyroute", "onChildChanged: "+idMyRoute);
+                Log.i("stay value", "onChildChanged: "+dataSnapshot.getValue());
                 String key = dataSnapshot.getKey();
                 String idDriver = dataSnapshot.child("driver").getValue(String.class);
+                boolean wait = dataSnapshot.child("wait").getValue(boolean.class);
+                boolean save = dataSnapshot.child("save").getValue(boolean.class);
 
-                if(key.equals(idMyRoute) && !(dataSnapshot.child("driver").getValue().equals(""))) {
+
+                if(key.equals(idMyRoute) && !(idDriver.equals(""))
+                        && (wait == false)
+                        && (save == false)) {
+                    Log.i("stay", "onChildChanged: onChildChanged in wait in if");
                     goToProceed(idMyRoute,idDriver);
                 }
             }
@@ -189,10 +226,6 @@ public class WaitActivity extends AppCompatActivity {
 
             }
         });
-
-
-
-
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -216,6 +249,8 @@ public class WaitActivity extends AppCompatActivity {
     }
 
     public void goToProceed(String idMyRoute,String idDriver) {
+        Log.i("stay", "onChildChanged: onChildChanged in wait in go to proceed");
+
         Intent intent = new Intent(WaitActivity.this, ProceedActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         intent.putExtra("idMyRoute",idMyRoute);

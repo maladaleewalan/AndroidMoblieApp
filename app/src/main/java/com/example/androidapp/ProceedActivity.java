@@ -62,6 +62,7 @@ public class ProceedActivity extends AppCompatActivity {
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                Log.i("stay", "onChildAdded:  in Proceed");
                 String key = dataSnapshot.getKey();
                 if(key.equals(idDriver)) {
                     String driverName = dataSnapshot.child("firstname").getValue(String.class);
@@ -142,6 +143,7 @@ public class ProceedActivity extends AppCompatActivity {
                 myRefRoute.child(idMyRoute).child("wait").setValue(true);
                 myRefRoute.child(idMyRoute).child("driver").setValue("");
 
+                Log.i("stay", "onClick: btnEnd click set savetrue/waittrue/driver");
            //     myRefRoute.child(idMyRoute).setValue(null);
                 Toast.makeText(ProceedActivity.this, "ขอบคุณที่ใช้บริการ", Toast.LENGTH_SHORT).show();
 

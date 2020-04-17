@@ -103,7 +103,7 @@ public class AppActivity extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Log.i("stay", "onClick: btnSubmit click");
                 place = mySpinner.getSelectedItem().toString();
 
                 if(place.equals("เลือกตำแหน่งใกล้เคียง")) {
@@ -130,10 +130,10 @@ public class AppActivity extends AppCompatActivity {
                 final Route newRoute = new Route("",firebaseAuth.getCurrentUser().getUid(),place,start,dest);
                 final String id = myRef.push().getKey();
 
-
                 myRefUser.addChildEventListener(new ChildEventListener() {
                     @Override
                     public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                        Log.i("stay", "onChildAdded: in AppActivity");
                         String key = dataSnapshot.getKey();
                         if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
                             String namepass = dataSnapshot.child("firstname").getValue(String.class);
@@ -172,6 +172,7 @@ public class AppActivity extends AppCompatActivity {
                     }
                 });
 
+                Log.i("stay", "onClick: in App goto wait");
                 Intent intent = new Intent(AppActivity.this,WaitActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("idMyRoute",id);
