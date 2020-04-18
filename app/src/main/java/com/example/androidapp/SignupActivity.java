@@ -67,24 +67,24 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(TextUtils.isEmpty(editTextEmail.getText().toString())) {
-                    Toast.makeText(SignupActivity.this, "Please enter email!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "กรุณาใส่อีเมลล์!", Toast.LENGTH_SHORT).show();
                     return;
 
                 }
                 if(TextUtils.isEmpty(editTextPassword.getText().toString())) {
-                    Toast.makeText(SignupActivity.this, "Please enter password!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "กรุณาใส่รหัสผ่าน!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(TextUtils.isEmpty(editTextFirstname.getText().toString())) {
-                    Toast.makeText(SignupActivity.this, "Please enter firstname!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "กรุณาใส่ชื่อจริง!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(TextUtils.isEmpty(editTextLastname.getText().toString())) {
-                    Toast.makeText(SignupActivity.this, "Please enter lastname!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "กรุณาใส่นามสกุล!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(TextUtils.isEmpty(editTextTel.getText().toString())) {
-                    Toast.makeText(SignupActivity.this, "Please enter tel!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, "กรุณาใส่เบอร์โทรศัพท์!", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if(editTextPassword.getText().toString().length()<8) {
@@ -109,7 +109,7 @@ public class SignupActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<com.google.firebase.auth.AuthResult> task) {
                         if(task.isSuccessful()) {
-                            Toast.makeText(SignupActivity.this, "Sign up success", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "สมัครสมาชิกสำเร็จ", Toast.LENGTH_SHORT).show();
 
                             editTextPassword.setText("");
                             editTextTel.setText("");
@@ -135,7 +135,7 @@ public class SignupActivity extends AppCompatActivity {
 
                         }
                         else {
-                            Toast.makeText(SignupActivity.this, "Could not Sign up. Please try again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignupActivity.this, "ไม่สามารถสมัครสมาชิก...กรุณาลองอีกครั้ง", Toast.LENGTH_SHORT).show();
 
                         }
                         progressDialog.dismiss();

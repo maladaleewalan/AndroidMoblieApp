@@ -120,8 +120,7 @@ public class HistoryActivity extends AppCompatActivity {
                             listItems.add(setItem.get(i));
 
                         }
-//                        for (Route r : setItem) {
-//                        }
+
                     }
                 }
                 adapter = new MyadapterHistory(listItems,HistoryActivity.this);

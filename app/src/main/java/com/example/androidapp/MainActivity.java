@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void loginClick(View view) {
-//        if(firebaseAuth.getCurrentUser() != null) {
-//            checkRole();
-//        }
+        if(firebaseAuth.getCurrentUser() != null) {    //3บรรทัด
+            checkRole();
+        }
         Intent intent = new Intent(this,LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         finish();
@@ -55,59 +55,59 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void signupClick(View view) {
-//        if(firebaseAuth.getCurrentUser() != null) {
-//            checkRole();
-//        }
+        if(firebaseAuth.getCurrentUser() != null) {   //3บรรทัด
+            checkRole();
+        }
         Intent intent = new Intent(this,SignupActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         finish();
         startActivity(intent);
     }
 
-//    public void checkRole() {
-//        myRef.addChildEventListener(new ChildEventListener() {
-//                @Override
-//                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                    String key = dataSnapshot.getKey();
-//                    if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
-//                        String role = dataSnapshot.child("role").getValue(String.class);
-//
-//                        if(role.equals("Driver")) {
-//                            Toast.makeText(MainActivity.this, "You're sign in!", Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent(MainActivity.this,AllCallActivity.class);
-//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                            finish();
-//                            startActivity(intent);
-//                        }
-//                        else {
-//                            Toast.makeText(MainActivity.this, "You're sign in!", Toast.LENGTH_SHORT).show();
-//                            Intent intent = new Intent(MainActivity.this,AppActivity.class);
-//                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//                            finish();
-//                            startActivity(intent);
-//                        }
-//                    }
-//                }
-//
-//                @Override
-//                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                }
-//
-//                @Override
-//                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//                }
-//
-//                @Override
-//                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                }
-//            });
-   // }
+    public void checkRole() {
+        myRef.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                    String key = dataSnapshot.getKey();
+                    if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
+                        String role = dataSnapshot.child("role").getValue(String.class);
+
+                        if(role.equals("Driver")) {
+                            Toast.makeText(MainActivity.this, "กำลัง login!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainActivity.this,AllCallActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            finish();
+                            startActivity(intent);
+                        }
+                        else {
+                            Toast.makeText(MainActivity.this, "กำลัง login!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(MainActivity.this,AppActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                            finish();
+                            startActivity(intent);
+                        }
+                    }
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+    }
 }

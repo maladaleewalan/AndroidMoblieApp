@@ -66,12 +66,12 @@ public class LoginActivity extends AppCompatActivity{
         String password = editTextPassword.getText().toString();
 
         if(TextUtils.isEmpty(email)) {
-            Toast.makeText(LoginActivity.this, "Please enter email!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "กรุณาใส่อีเมลล์!", Toast.LENGTH_SHORT).show();
             return;
 
         }
         if(TextUtils.isEmpty(password)) {
-            Toast.makeText(LoginActivity.this, "Please enter password!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "กรุณาใส่รหัสผ่าน!", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity{
                     });
                 }
                 else {
-                    Toast.makeText(LoginActivity.this, "Sign in fail. Please try again", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(LoginActivity.this, "สมัครไม่สำเร็จ...กรุณาลองอีกครั้ง", Toast.LENGTH_SHORT).show();
                 }
 
             }
@@ -118,7 +118,7 @@ public class LoginActivity extends AppCompatActivity{
     public void nextPage(String role) {
 
         if(role.equals("Driver")) {
-            Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "กำลัง login!", Toast.LENGTH_SHORT).show();
 
             editTextEmail.setText("");
             editTextPassword.setText("");
@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity{
             finish();
             startActivity(intent);
         }else if(role.equals("Student/Teacher/Officer") || role.equals("Other")) {
-            Toast.makeText(LoginActivity.this, "You're login!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(LoginActivity.this, "กำลัง login!", Toast.LENGTH_SHORT).show();
 
             editTextEmail.setText("");
             editTextPassword.setText("");

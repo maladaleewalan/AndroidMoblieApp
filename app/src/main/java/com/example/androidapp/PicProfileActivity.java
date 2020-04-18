@@ -74,7 +74,7 @@ public class PicProfileActivity extends AppCompatActivity {
 
                 final StorageReference Imagename = Folder.child("image"+uri.getLastPathSegment());
                 if(uri.equals(Uri.parse(""))) {
-                    Toast.makeText(PicProfileActivity.this, "Please upload profile picture!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PicProfileActivity.this, "กรุณาเลือกรูปโปรไฟล์!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
 
                     return ;
@@ -115,7 +115,7 @@ public class PicProfileActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
 
-                        Toast.makeText(PicProfileActivity.this, "Upload Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(PicProfileActivity.this, "อัพโหลดรูปโปรไฟล์สำเร็จ", Toast.LENGTH_SHORT).show();
 
                    }
                 });

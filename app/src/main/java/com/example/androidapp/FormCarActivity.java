@@ -91,7 +91,7 @@ public class FormCarActivity extends AppCompatActivity {
 
                 final StorageReference Imagename = Folder.child("image"+uri.getLastPathSegment());
                 if(uri.equals(Uri.parse(""))) {
-                    Toast.makeText(FormCarActivity.this, "Please upload car picture!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FormCarActivity.this, "กรุณาเลือกรูปภาพ!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
 
                     return ;
@@ -124,7 +124,7 @@ public class FormCarActivity extends AppCompatActivity {
 
                             }
                         });
-                        Toast.makeText(FormCarActivity.this, "Upload Success", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(FormCarActivity.this, "กรอกข้อมูลเเสร็จสิ้น", Toast.LENGTH_SHORT).show();
 
                         editTextRegis.setText("");
                         next();

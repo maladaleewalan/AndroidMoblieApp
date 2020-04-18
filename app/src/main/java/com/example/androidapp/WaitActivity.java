@@ -154,41 +154,12 @@ public class WaitActivity extends AppCompatActivity {
         });
 
         final DatabaseReference myRefRoute = database.getReference("routes");
-//        DatabaseReference d = FirebaseDatabase.getInstance().getReference().child("routes").child(idMyRoute);
-//
-//        Log.i("onDataChange", "onCreate: "+idMyRoute);
-//        d.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                Log.i("allvalue", "onDataChange: "+dataSnapshot.getValue());
-//
-//                String idDriver = dataSnapshot.child("driver").getValue(String.class);
-//                Log.i("idDriver", "onDataChange: "+idDriver);
-//
-//                if(idDriver != null) {
-//                    if(!idDriver.equals("")) {
-//                        Log.i("inif", "onDataChange: ");
-//                        goToProceed(idMyRoute,idDriver);
-//                    }
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
 
         myRefRoute.addChildEventListener(new ChildEventListener() {
 
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                String key = dataSnapshot.getKey();
-//                if(key.equals(idMyRoute)) {
-//                    myRef.child(key).child("driver").setValue("");
-//                    myRef.child(key).child("wait").setValue(true);
-//                }
+
 
             }
 
@@ -196,7 +167,7 @@ public class WaitActivity extends AppCompatActivity {
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Log.i("stay", "onChildChanged: onChildChanged in wait");
             //    Log.i("stay idmyroute", "onChildChanged: "+idMyRoute);
-                Log.i("stay value", "onChildChanged: "+dataSnapshot.getValue());
+                Log.i("wait check value", "onChildChanged: "+dataSnapshot.getValue());
                 String key = dataSnapshot.getKey();
                 String idDriver = dataSnapshot.child("driver").getValue(String.class);
                 boolean wait = dataSnapshot.child("wait").getValue(boolean.class);

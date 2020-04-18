@@ -68,7 +68,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         holder.destCall.setText("จุดส่ง: "+listItem.getDest());
         holder.firstnameCall.setText(listItem.getNamepassenger());
         holder.telCall.setText(listItem.getTelpassenger());
-        
+
         Log.i("stay", "onBindViewHolder: last onBindViewHolder inMyadapter");
         holder.buttonPickup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,15 +77,15 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 if(listItem.isWait == false) {
-                    Toast.makeText(context, "Already Picked up!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "มีการ Picked up แล้ว!", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                builder.setMessage("Are you pick up").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                builder.setMessage("คุณจะ pick up?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Log.i("stay", ": builder yes pickup");
 
-                        holder.buttonPickup.setText("You Pick up");
+                        holder.buttonPickup.setText("Pick up");
                         holder.buttonPickup.setTextColor(Color.parseColor("#d84315"));
                         Log.i("checkcheck", "onClick: "+listItem.isWait);  //true
 
@@ -93,7 +93,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                         Log.i("stay", "onClick: set false");
                         listItem.setDriver(firebaseAuth.getCurrentUser().getUid());
 
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        final FirebaseDatabase database = FirebaseDatabase.getInstance();
                         final DatabaseReference myRef = database.getReference("routes");
 
 
@@ -101,6 +101,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                             @Override
                             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                                 Log.i("stay", "onChildAdded: in Myadapter");
+                                Log.i("adapter get value", "onChildAdded: "+dataSnapshot.getValue());
                                 String start = dataSnapshot.child("start").getValue(String.class);
                                 String dest = dataSnapshot.child("dest").getValue(String.class);
                                 String passenger = dataSnapshot.child("passenger").getValue(String.class);
@@ -110,8 +111,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                                     final String key = dataSnapshot.getKey();
 
                                     myRef.child(key).setValue(listItem);
-                                    Log.i("stay", "after in addchild Myadapter: "+listItem.getDriver()+" "+key);
+                                    Log.i("adapter value after set", "onChildAdded: "+dataSnapshot.getValue());
 
+                                    Log.i("stay", "after in addchild Myadapter: "+listItem.getDriver()+" "+key);
 
                                 }
                             }

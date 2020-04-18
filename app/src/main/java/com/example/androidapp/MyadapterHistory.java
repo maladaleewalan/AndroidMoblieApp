@@ -64,6 +64,8 @@ public class MyadapterHistory extends RecyclerView.Adapter<MyadapterHistory.View
                 myRef.child(id).setValue(newRoute);
                 intent.putExtra("idMyRoute",id);
 
+                Log.i("value", "onClick: check in adaoterhistory"+newRoute.getDriver());
+
                 Log.i("stay idmyroute", "onChildChanged: "+id);
 
 

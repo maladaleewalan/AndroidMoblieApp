@@ -161,6 +161,13 @@ public class AllCallActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+                boolean save = dataSnapshot.child("save").getValue(boolean.class);
+                if(save == true) {
+                    Intent intent = new Intent(AllCallActivity.this,AllCallActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    finish();
+                    startActivity(intent);
+                }
 
             }
 
