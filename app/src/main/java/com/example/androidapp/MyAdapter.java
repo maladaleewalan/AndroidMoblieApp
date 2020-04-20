@@ -74,7 +74,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
             @Override
             public void onClick(View v) {
                 Log.i("stay", "onClickListener buttonPickup click");
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 if(listItem.isWait == false) {
                     Toast.makeText(context, "มีการ Picked up แล้ว!", Toast.LENGTH_SHORT).show();
@@ -96,41 +95,38 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
                         final DatabaseReference myRef = database.getReference("routes");
 
-
-                        myRef.addChildEventListener(new ChildEventListener() {
+                        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
-                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                                Log.i("stay", "onChildAdded: in Myadapter");
-                                Log.i("adapter get value", "onChildAdded: "+dataSnapshot.getValue());
-                                String start = dataSnapshot.child("start").getValue(String.class);
-                                String dest = dataSnapshot.child("dest").getValue(String.class);
-                                String passenger = dataSnapshot.child("passenger").getValue(String.class);
-                                if (start.equals(listItem.getStart()) && dest.equals(listItem.getDest()) && passenger.equals(listItem.getPassenger())) {
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                int set = 0;
 
-                                    Log.i("stay", "before in addchild Myadapter: "+dataSnapshot.getValue());  //wait true
-                                    final String key = dataSnapshot.getKey();
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    String key = ds.getKey();
 
-                                    myRef.child(key).setValue(listItem);
-                                    Log.i("adapter value after set", "onChildAdded: "+dataSnapshot.getValue());
+                                    String start = dataSnapshot.child(key).child("start").getValue(String.class);
+                                    String dest = dataSnapshot.child(key).child("dest").getValue(String.class);
+                                    String passenger = dataSnapshot.child(key).child("passenger").getValue(String.class);
+                                    if (start.equals(listItem.getStart()) && dest.equals(listItem.getDest()) && passenger.equals(listItem.getPassenger())) {
 
-                                    Log.i("stay", "after in addchild Myadapter: "+listItem.getDriver()+" "+key);
-
+                                       // myRef.child(key).setValue(listItem);
+                                        set++;
+                                    }
                                 }
-                            }
 
-                            @Override
-                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
-                            }
+                                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                    String key = ds.getKey();
 
-                            @Override
-                            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                            }
-
-                            @Override
-                            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
+                                    String start = dataSnapshot.child(key).child("start").getValue(String.class);
+                                    String dest = dataSnapshot.child(key).child("dest").getValue(String.class);
+                                    String passenger = dataSnapshot.child(key).child("passenger").getValue(String.class);
+                                    if (start.equals(listItem.getStart()) && dest.equals(listItem.getDest()) && passenger.equals(listItem.getPassenger())) {
+                                        set--;
+                                    }
+                                    if(set == 0) {
+                                        myRef.child(key).setValue(listItem);
+                                    }
+                                }
                             }
 
                             @Override
@@ -138,6 +134,49 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
                             }
                         });
+
+                        //this
+//                        myRef.addChildEventListener(new ChildEventListener() {
+//                            @Override
+//                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                                Log.i("stay", "onChildAdded: in Myadapter");
+//                                Log.i("adapter get value", "onChildAdded: "+dataSnapshot.getValue());
+//                                String start = dataSnapshot.child("start").getValue(String.class);
+//                                String dest = dataSnapshot.child("dest").getValue(String.class);
+//                                String passenger = dataSnapshot.child("passenger").getValue(String.class);
+//                                if (start.equals(listItem.getStart()) && dest.equals(listItem.getDest()) && passenger.equals(listItem.getPassenger())) {
+//
+//                                    Log.i("stay", "before in addchild Myadapter: "+dataSnapshot.getValue());  //wait true
+//                                    final String key = dataSnapshot.getKey();
+//
+//                                    myRef.child(key).setValue(listItem);
+//                                    Log.i("adapter value after set", "onChildAdded: "+dataSnapshot.getValue());
+//
+//                                    Log.i("stay", "after in addchild Myadapter: "+listItem.getDriver()+" "+key);
+//
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                            }
+//                        });
 
 
 

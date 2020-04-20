@@ -45,6 +45,11 @@ public class WaitActivity extends AppCompatActivity {
 
     boolean back = false;
 
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    final DatabaseReference myRefRoute = database.getReference("routes");
+
+
 
 
     @Override
@@ -59,10 +64,8 @@ public class WaitActivity extends AppCompatActivity {
         Intent intent;
         switch(item.getItemId()){
             case R.id.nav_home:
-                intent = new Intent(WaitActivity.this,AppActivity.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                finish();
-                startActivity(intent);
+                myRefRoute.child(idMyRoute).setValue(null);
+                back();
                 return true;
 
             case R.id.nav_logout:   //this item has your app icon
@@ -153,8 +156,6 @@ public class WaitActivity extends AppCompatActivity {
             }
         });
 
-        final DatabaseReference myRefRoute = database.getReference("routes");
-
         myRefRoute.addChildEventListener(new ChildEventListener() {
 
             @Override
@@ -166,7 +167,7 @@ public class WaitActivity extends AppCompatActivity {
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Log.i("stay", "onChildChanged: onChildChanged in wait");
-            //    Log.i("stay idmyroute", "onChildChanged: "+idMyRoute);
+                Log.i("stay idmyroute wait", "onChildChanged: "+idMyRoute);
                 Log.i("wait check value", "onChildChanged: "+dataSnapshot.getValue());
                 String key = dataSnapshot.getKey();
                 String idDriver = dataSnapshot.child("driver").getValue(String.class);

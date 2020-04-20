@@ -130,39 +130,26 @@ public class AppActivity extends AppCompatActivity {
                 final Route newRoute = new Route("",firebaseAuth.getCurrentUser().getUid(),place,start,dest);
                 final String id = myRef.push().getKey();
 
-                myRefUser.addChildEventListener(new ChildEventListener() {
+                myRefUser.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
-                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                        Log.i("stay", "onChildAdded: in AppActivity");
-                        String key = dataSnapshot.getKey();
-                        if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
-                            String namepass = dataSnapshot.child("firstname").getValue(String.class);
-                            String telpass = dataSnapshot.child("tel").getValue(String.class);
-                            String uri = dataSnapshot.child("profilePic").getValue(String.class);
-                            newRoute.setNamepassenger(namepass);
-                            newRoute.setTelpassenger(telpass);
-                            newRoute.setPicpassenger(uri);
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            String key = ds.getKey();
+                            if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
+                                String namepass = dataSnapshot.child(key).child("firstname").getValue(String.class);
+                                String telpass = dataSnapshot.child(key).child("tel").getValue(String.class);
+                                String uri = dataSnapshot.child(key).child("profilePic").getValue(String.class);
+                                newRoute.setNamepassenger(namepass);
+                                newRoute.setTelpassenger(telpass);
+                                newRoute.setPicpassenger(uri);
 
-                            myRef.child(id).setValue(newRoute);
+                                myRef.child(id).setValue(newRoute);
 
-                            editTextStart.setText("");
-                            editTextDest.setText("");
+                                editTextStart.setText("");
+                                editTextDest.setText("");
 
+                            }
                         }
-                    }
-
-                    @Override
-                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-                    }
-
-                    @Override
-                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-                    }
-
-                    @Override
-                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
                     }
 
@@ -171,6 +158,48 @@ public class AppActivity extends AppCompatActivity {
 
                     }
                 });
+
+//                myRefUser.addChildEventListener(new ChildEventListener() {
+//                    @Override
+//                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//                        Log.i("stay", "onChildAdded: in AppActivity");
+//                        String key = dataSnapshot.getKey();
+//                        if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
+//                            String namepass = dataSnapshot.child("firstname").getValue(String.class);
+//                            String telpass = dataSnapshot.child("tel").getValue(String.class);
+//                            String uri = dataSnapshot.child("profilePic").getValue(String.class);
+//                            newRoute.setNamepassenger(namepass);
+//                            newRoute.setTelpassenger(telpass);
+//                            newRoute.setPicpassenger(uri);
+//
+//                            myRef.child(id).setValue(newRoute);
+//
+//                            editTextStart.setText("");
+//                            editTextDest.setText("");
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
 
                 Log.i("stay", "onClick: in App goto wait");
                 Intent intent = new Intent(AppActivity.this,WaitActivity.class);
