@@ -42,8 +42,6 @@ public class LoginActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        Log.i("stay", "onCreate: loginActivity");
-
 
         firebaseAuth = FirebaseAuth.getInstance();
 
@@ -138,6 +136,5 @@ public class LoginActivity extends AppCompatActivity{
             finish();
             startActivity(intent);
         }
-        Log.i("checkrole next", "checkRole: "+role);
     }
 }

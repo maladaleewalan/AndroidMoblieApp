@@ -74,7 +74,6 @@ public class AllCallActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_all_call);
 
-        Log.i("stay", "onCreate: AllCallActivity");
         setItem = new ArrayList<>();
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -161,7 +160,6 @@ public class AllCallActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.i("checkallcall", "onChildChanged: "+dataSnapshot.getValue());
                 boolean save = dataSnapshot.child("save").getValue(boolean.class);
                 if(save == true) {
                     Intent intent = new Intent(AllCallActivity.this,AllCallActivity.class);

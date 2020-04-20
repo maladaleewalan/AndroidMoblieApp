@@ -74,9 +74,6 @@ public class AppActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app);
 
-        Log.i("stay", "onCreate: AppActivity");
-
-
         buttonSubmit = findViewById(R.id.buttonSubmit);
         editTextStart = (EditText)findViewById(R.id.editTextStart);
         editTextDest = (EditText)findViewById(R.id.editTextDest);
@@ -103,7 +100,6 @@ public class AppActivity extends AppCompatActivity {
         buttonSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("stay", "onClick: btnSubmit click");
                 place = mySpinner.getSelectedItem().toString();
 
                 if(place.equals("เลือกตำแหน่งใกล้เคียง")) {
@@ -159,49 +155,6 @@ public class AppActivity extends AppCompatActivity {
                     }
                 });
 
-//                myRefUser.addChildEventListener(new ChildEventListener() {
-//                    @Override
-//                    public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                        Log.i("stay", "onChildAdded: in AppActivity");
-//                        String key = dataSnapshot.getKey();
-//                        if(key.equals(firebaseAuth.getCurrentUser().getUid())) {
-//                            String namepass = dataSnapshot.child("firstname").getValue(String.class);
-//                            String telpass = dataSnapshot.child("tel").getValue(String.class);
-//                            String uri = dataSnapshot.child("profilePic").getValue(String.class);
-//                            newRoute.setNamepassenger(namepass);
-//                            newRoute.setTelpassenger(telpass);
-//                            newRoute.setPicpassenger(uri);
-//
-//                            myRef.child(id).setValue(newRoute);
-//
-//                            editTextStart.setText("");
-//                            editTextDest.setText("");
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-
-                Log.i("stay", "onClick: in App goto wait");
                 Intent intent = new Intent(AppActivity.this,WaitActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 intent.putExtra("idMyRoute",id);

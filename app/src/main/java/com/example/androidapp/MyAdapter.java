@@ -57,7 +57,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
-        Log.i("stay", "onBindViewHolder: inMyadapter");
         final Route listItem = listItems.get(position);
 
         if(listItem.getPicpassenger()!=null) {
@@ -69,11 +68,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
         holder.firstnameCall.setText(listItem.getNamepassenger());
         holder.telCall.setText(listItem.getTelpassenger());
 
-        Log.i("stay", "onBindViewHolder: last onBindViewHolder inMyadapter");
         holder.buttonPickup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("stay", "onClickListener buttonPickup click");
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 if(listItem.isWait == false) {
                     Toast.makeText(context, "มีการ Picked up แล้ว!", Toast.LENGTH_SHORT).show();
@@ -82,14 +79,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                 builder.setMessage("คุณจะ pick up?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Log.i("stay", ": builder yes pickup");
 
                         holder.buttonPickup.setText("Pick up");
                         holder.buttonPickup.setTextColor(Color.parseColor("#d84315"));
-                        Log.i("checkcheck", "onClick: "+listItem.isWait);  //true
 
                         listItem.setWait(false);
-                        Log.i("stay", "onClick: set false");
                         listItem.setDriver(firebaseAuth.getCurrentUser().getUid());
 
                         final FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -135,55 +129,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                             }
                         });
 
-                        //this
-//                        myRef.addChildEventListener(new ChildEventListener() {
-//                            @Override
-//                            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//                                Log.i("stay", "onChildAdded: in Myadapter");
-//                                Log.i("adapter get value", "onChildAdded: "+dataSnapshot.getValue());
-//                                String start = dataSnapshot.child("start").getValue(String.class);
-//                                String dest = dataSnapshot.child("dest").getValue(String.class);
-//                                String passenger = dataSnapshot.child("passenger").getValue(String.class);
-//                                if (start.equals(listItem.getStart()) && dest.equals(listItem.getDest()) && passenger.equals(listItem.getPassenger())) {
-//
-//                                    Log.i("stay", "before in addchild Myadapter: "+dataSnapshot.getValue());  //wait true
-//                                    final String key = dataSnapshot.getKey();
-//
-//                                    myRef.child(key).setValue(listItem);
-//                                    Log.i("adapter value after set", "onChildAdded: "+dataSnapshot.getValue());
-//
-//                                    Log.i("stay", "after in addchild Myadapter: "+listItem.getDriver()+" "+key);
-//
-//                                }
-//                            }
-//
-//                            @Override
-//                            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-//
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                            }
-//                        });
-
-
-
                     }
                 }).setNegativeButton("Cancel",null);
 
-                Log.i("stay", "onClick: alert show in Myadapter");
                 AlertDialog alert = builder.create();
                 alert.show();
             }

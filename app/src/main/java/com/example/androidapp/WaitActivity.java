@@ -91,9 +91,6 @@ public class WaitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait);
 
-        Log.i("stay", "onCreate: WaitActivity");
-
-
         Intent intent = getIntent();
         idMyRoute = intent.getStringExtra("idMyRoute");
 
@@ -166,9 +163,6 @@ public class WaitActivity extends AppCompatActivity {
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                Log.i("stay", "onChildChanged: onChildChanged in wait");
-                Log.i("stay idmyroute wait", "onChildChanged: "+idMyRoute);
-                Log.i("wait check value", "onChildChanged: "+dataSnapshot.getValue());
                 String key = dataSnapshot.getKey();
                 String idDriver = dataSnapshot.child("driver").getValue(String.class);
                 boolean wait = dataSnapshot.child("wait").getValue(boolean.class);
@@ -178,7 +172,6 @@ public class WaitActivity extends AppCompatActivity {
                 if(key.equals(idMyRoute) && !(idDriver.equals(""))
                         && (wait == false)
                         && (save == false)) {
-                    Log.i("stay", "onChildChanged: onChildChanged in wait in if");
                     goToProceed(idMyRoute,idDriver);
                 }
             }
@@ -221,7 +214,6 @@ public class WaitActivity extends AppCompatActivity {
     }
 
     public void goToProceed(String idMyRoute,String idDriver) {
-        Log.i("stay", "onChildChanged: onChildChanged in wait in go to proceed");
 
         Intent intent = new Intent(WaitActivity.this, ProceedActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

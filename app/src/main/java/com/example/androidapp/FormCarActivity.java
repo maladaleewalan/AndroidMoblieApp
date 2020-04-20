@@ -55,7 +55,6 @@ public class FormCarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_form_car);
 
-        Log.i("stay", "onCreate: FormActivity");
 
 
         if(firebaseAuth.getCurrentUser() == null) {

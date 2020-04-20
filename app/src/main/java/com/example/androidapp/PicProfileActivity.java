@@ -51,19 +51,11 @@ public class PicProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pic_profile);
 
-        Log.i("stay", "onCreate: PicProfileActivity");
 
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
         buttonPicNext = findViewById(R.id.buttonPicNext);
         progressDialog = new ProgressDialog(this);
         uri = Uri.parse("");
-
-//        if(firebaseAuth.getCurrentUser() == null) {
-//            Intent intent = new Intent(PicProfileActivity.this,LoginActivity.class);
-//            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-//            finish();
-//            startActivity(intent);
-//        }
 
         buttonPicNext.setOnClickListener(new View.OnClickListener() {
 
@@ -138,7 +130,6 @@ public class PicProfileActivity extends AppCompatActivity {
         if(requestCode == ImageCode) {
             if(resultCode == RESULT_OK) {
                 uri = data.getData();
-                Log.i("uriprofile", "onActivityResult: "+uri);
                 ImageView imageView = (ImageView) findViewById((R.id.profilepic));
                 imageView.setImageURI(uri);
 

@@ -40,13 +40,11 @@ public class MyadapterHistory extends RecyclerView.Adapter<MyadapterHistory.View
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolderHistory holder, int position) {
-        Log.i("stay", "onBindViewHolder: in MyadapterHistory");
         final Route listItem = listItems.get(position);
 
         holder.historyStart.setText("จุดรับ: "+listItem.getStart());
         holder.historyDest.setText("จุดส่ง: "+listItem.getDest());
         holder.historyPlace.setText(listItem.getPlace());
-        Log.i("stay", "onBindViewHolder: last in MyadapterHistory");
 
 
         holder.buttonCall.setOnClickListener(new View.OnClickListener() {
@@ -59,15 +57,9 @@ public class MyadapterHistory extends RecyclerView.Adapter<MyadapterHistory.View
                 newRoute.setTelpassenger(listItem.getTelpassenger());
                 newRoute.setNamepassenger(listItem.getNamepassenger());
 
-                Log.i("stay", "onClick: setvalue in MyadapterHistory");
                 final String id = myRef.push().getKey();
                 myRef.child(id).setValue(newRoute);
                 intent.putExtra("idMyRoute",id);
-
-                Log.i("value", "onClick: check in adaoterhistory"+newRoute.getDriver());
-
-                Log.i("idmyroute adapter his", "onChildChanged: "+id);
-
 
                 context.startActivity(intent);
             }
